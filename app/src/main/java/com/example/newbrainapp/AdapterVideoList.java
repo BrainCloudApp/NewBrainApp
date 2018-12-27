@@ -14,7 +14,7 @@ import cn.jzvd.JzvdStd;
 public class AdapterVideoList extends BaseAdapter {
     public static final String TAG = "JZVD";
 
-    Context context;
+    Context context;//测试查看
 
     String[] videoUrls;
     String[] videoTitles;
