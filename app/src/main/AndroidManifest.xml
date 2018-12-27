@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.newbrainapp">
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="16"
+        tools:overrideLibrary="cn.jzvd" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Login"
+            android:exported="true"
+            android:theme="@style/AppTheme.Dark">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- <activity android:name=".MainActivity"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".NewsContent"
+            android:theme="@style/NewsContentActivityTheme" />
+        <activity android:name=".VideoList" />
+        <!-- <activity android:name=".Login" /> -->
+        <activity android:name=".Register"
+            android:theme="@style/AppTheme.Dark"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".StudyMaterial" />
+        <activity android:name=".StudyMaterialItem" />
+        <activity android:name=".EvaluateForm01" />
+        <activity android:name=".EvaluateForm02" />
+        <activity android:name=".EvaluateForm03" />
+        <activity android:name=".EvaluateForm04" />
+        <activity android:name=".EvaluateForm05" />
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".EvaluateFormList" />
+        <activity android:name=".NearHospital" />
+        <activity android:name=".WebView1" />
+        <activity android:name=".WebView2" />
+        <activity android:name=".WebView3" />
+        <activity android:name=".PersonInfo"></activity>
+    </application>
+
+</manifest>
