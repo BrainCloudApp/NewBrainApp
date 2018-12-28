@@ -3,26 +3,29 @@ package com.example.newbrainapp;
 import java.io.Serializable;
 
 public class News implements Serializable {
-    private String newsName;
-    private String newsImageId;
+    private String title;
+    private String img;
     private String newsContent = "";
 
     public News(String newsName, String newsImageId){
-        setNewsImageId(newsImageId);
-        setNewsName(newsName);
+        setTitle(newsImageId);
+        setImg(newsName);
     }
 
-    public String getNewsName() {
-        return newsName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNewsImageId(String newsImageId) {
-        this.newsImageId = newsImageId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getNewsImageId() {
+    public String getImg() {
+        return img;
+    }
 
-        return newsImageId;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getNewsContent() {
@@ -33,9 +36,6 @@ public class News implements Serializable {
         this.newsContent = newsContent;
     }
 
-    public void setNewsName(String newsName) {
-        this.newsName = newsName;
-    }
 
 
 }

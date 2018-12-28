@@ -37,6 +37,7 @@ public class LmqTool {
         }
         return null;
     }
+
     public static boolean hasNetWork(Activity activity) {
         Context context = activity.getApplicationContext();
         ConnectivityManager connectivity = (ConnectivityManager) context

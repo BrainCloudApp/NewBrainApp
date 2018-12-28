@@ -1,8 +1,10 @@
 package com.lmq.common;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
 
 import com.ddmeng.preferencesprovider.provider.PreferencesStorageModule;
+import com.example.newbrainapp.News;
 import com.lmq.tool.LmqTool;
 
 import java.util.ArrayList;
@@ -21,6 +23,16 @@ public class Appstorage  {
     public static void initModel(Context context){
         if(myModule==null)
             myModule = new PreferencesStorageModule(context, "appModule");
+    }
+
+    public static void setRememberPsdState(Context context, boolean isRememberPsd){
+        initModel(context);
+        myModule.put("user.isRememberPsd", isRememberPsd);
+    }
+
+    public static boolean getRememberPsdState(Context context){
+        initModel(context);
+        return myModule.getBoolean("user.isRememberPsd", false);
     }
 
     public static void setLoginUsernameAndPwd(Context context,String username,String pwd){
@@ -55,17 +67,18 @@ public class Appstorage  {
         initModel(mcontext);
         return myModule.getBoolean("user.loginstate",false);
     }
-   /* public  static  void saveContentList(Context mcontext,String contentstr){
-        initModel(mcontext);
-        myModule.put("contentstr",contentstr);
-    }
-    public static  ArrayList<Content> getContentList(Context mcontext){
-        initModel(mcontext);
-        String data=myModule.getString("contentstr","");
-        if(data.length()==0)
-            return null;
-        ArrayList<Content> arrayList= LmqTool.jsonToArrayList(data, Content.class);
-        return arrayList;
-    }*/
+
+   public static void saveNewsList(Context mcontext, String newsStr){
+       initModel(mcontext);
+       myModule.put("newsStr", newsStr);
+   }
+
+   public static ArrayList<News> getNewsList(Context mcontext){
+       initModel(mcontext);
+       String newsData = myModule.getString("newsStr","");
+       if (newsData.length() == 0) return null;
+       ArrayList<News> arrayList = LmqTool.jsonToArrayList(newsData, News.class);
+       return arrayList;
+   }
 
 }

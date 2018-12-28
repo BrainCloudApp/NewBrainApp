@@ -28,7 +28,8 @@ public class Register extends AppCompatActivity {
     private EditText regUsername;
     private EditText regUserpsd;
     private EditText regUserVerifypsd;
-    private String name, psd1, psd2,reg_class;
+    private EditText regUserPhone;
+    private String name, psd1, psd2, phone;
     RegisterBean registerBean = new RegisterBean();
 
     @Override
@@ -39,6 +40,7 @@ public class Register extends AppCompatActivity {
         regUsername = findViewById(R.id.reg_name);
         regUserpsd = findViewById(R.id.reg_password);
         regUserVerifypsd = findViewById(R.id.reg_verifypsd);
+        regUserPhone = findViewById(R.id.reg_phone);
 
         signup = findViewById(R.id.btn_signup);
         signup.setOnClickListener(new View.OnClickListener() {
@@ -47,10 +49,12 @@ public class Register extends AppCompatActivity {
                 name = regUsername.getText().toString().trim();
                 psd1 = regUserpsd.getText().toString().trim();
                 psd2 = regUserVerifypsd.getText().toString().trim();
+                phone = regUserPhone.getText().toString().trim();
 
                 if(psd1.equals(psd2)){
                     registerBean.setReg_username(name);
                     registerBean.setReg_psd(psd1);
+                    registerBean.setReg_phone(phone);
                     String registerJson = new Gson().toJson(registerBean);
                     Log.d("Callback", registerJson.toString());
                     postRequest(registerJson);
@@ -74,13 +78,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String state = response.body().string();
-                Log.d("State",state);
-//                Log.d("State","" + state.charAt(state.length()-3));
-//                Log.d("Callback",state.getClass().toString());
-//
                 try {
                     JSONObject stateJson = new JSONObject(state);
-                    Log.d("State","" + stateJson.get("flag"));
                     if(stateJson.get("flag").equals("success")){
                         Register.this.runOnUiThread(new Runnable() {
                             @Override

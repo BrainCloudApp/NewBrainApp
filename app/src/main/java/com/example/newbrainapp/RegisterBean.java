@@ -4,6 +4,15 @@ public class RegisterBean {
     private String reg_username;
     private String reg_psd;
     private String reg_class;
+    private String reg_phone;
+
+    public String getReg_phone() {
+        return reg_phone;
+    }
+
+    public void setReg_phone(String reg_phone) {
+        this.reg_phone = reg_phone;
+    }
 
     public String getReg_username() {
         return reg_username;

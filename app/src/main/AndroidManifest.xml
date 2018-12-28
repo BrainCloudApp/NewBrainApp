@@ -20,33 +20,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".Login"
-            android:exported="true"
-            android:theme="@style/AppTheme.Dark">
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- <activity android:name=".MainActivity"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
         <activity
             android:name=".NewsContent"
             android:theme="@style/NewsContentActivityTheme" />
+         <activity
+             android:name=".Login"
+             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Register"
+            android:theme="@style/AppTheme.Dark" />
         <activity android:name=".VideoList" />
-        <!-- <activity android:name=".Login" /> -->
-        <activity android:name=".Register"
-            android:theme="@style/AppTheme.Dark"/>
-        <activity android:name=".MainActivity" />
         <activity android:name=".StudyMaterial" />
         <activity android:name=".StudyMaterialItem" />
         <activity android:name=".EvaluateForm01" />

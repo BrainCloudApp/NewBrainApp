@@ -64,7 +64,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 final News news = mNews.get(position);
 //                Toast.makeText(view.getContext(), "view" + news.getNewsName(), Toast.LENGTH_LONG).show();
                 if("".equals(news.getNewsContent())) {
-                    HttpUtil.getHttpRequest(HttpUtil.IP + "/app/news/" + news.getNewsName(), new Callback() {
+                    HttpUtil.getHttpRequest(HttpUtil.IP + "/app/news/" + news.getTitle(), new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             Log.d("Fragment1", "服务器访问失败");
@@ -79,8 +79,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 //                                Log.d("ContentAdapter_con", con);
                                 news.setNewsContent(con);
                                 Intent intent = new Intent(mContext, NewsContent.class);
-                                intent.putExtra(NewsContent.NEWS_CONTENT_NAME, news.getNewsName());
-                                intent.putExtra(NewsContent.NEWS_CONTENT_IMAGE_ID, news.getNewsImageId());
+                                intent.putExtra(NewsContent.NEWS_CONTENT_NAME, news.getTitle());
+                                intent.putExtra(NewsContent.NEWS_CONTENT_IMAGE_ID, news.getImg());
                                 intent.putExtra(NewsContent.NEWS_CONTENT_TEXT, news.getNewsContent());
                                 mContext.startActivity(intent);
                             } catch (JSONException e) {
@@ -90,8 +90,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     });
                 }else{
                     Intent intent = new Intent(mContext, NewsContent.class);
-                    intent.putExtra(NewsContent.NEWS_CONTENT_NAME, news.getNewsName());
-                    intent.putExtra(NewsContent.NEWS_CONTENT_IMAGE_ID, news.getNewsImageId());
+                    intent.putExtra(NewsContent.NEWS_CONTENT_NAME, news.getTitle());
+                    intent.putExtra(NewsContent.NEWS_CONTENT_IMAGE_ID, news.getImg());
                     intent.putExtra(NewsContent.NEWS_CONTENT_TEXT, news.getNewsContent());
                     mContext.startActivity(intent);
                 }
@@ -100,12 +100,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return holder;
     }
 
+//    public void refresh(List<News> newsList){
+//        this.mNews = newsList;
+//        this.notifyDataSetChanged();
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, int position) {
-        News single_news = mNews.get(position);
-        holder.newsName.setText(single_news.getNewsName());
-        Log.d("Fragment1",HttpUtil.IP + single_news.getNewsImageId());
-        Glide.with(mContext).load(HttpUtil.IP + single_news.getNewsImageId()).into(holder.newsImage);
+        try {
+            News single_news = mNews.get(position);
+            holder.newsName.setText(single_news.getTitle());
+            Log.d("Fragment1",HttpUtil.IP + single_news.getImg());
+            Glide.with(mContext).load(HttpUtil.IP + single_news.getImg()).into(holder.newsImage);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
