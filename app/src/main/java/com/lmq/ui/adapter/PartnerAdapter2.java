@@ -100,7 +100,7 @@ public class PartnerAdapter2  extends BaseAdapter{
         @BindView(R.id.dianzan)TextView dianzan;
         @BindView(R.id.pinglun)TextView pinglun;
         @BindView(R.id.shareimg)ImageView shareimg;
-        @BindView(R.id.dianzancount)TextView dianzancount;
+       // @BindView(R.id.dianzancount)TextView dianzancount;
         @BindView(R.id.pingluninfo)TextView pingluninfo;
 
     }

@@ -88,29 +88,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         >
-                        <TextView
+                        <!--<TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/dianzan"
                             android:text="66"
                             android:layout_centerVertical="true"
                             android:id="@+id/dianzancount"
-                            android:textSize="13sp" />
+                            android:textSize="13sp" />-->
                         <TextView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="38dp"
+                            android:layout_height="30dp"
                             android:layout_margin="5dp"
+                            android:padding="1dp"
                             android:layout_toLeftOf="@+id/pinglun"
-                            android:text=""
-                            android:background="@drawable/ic_dianzan"
-                            android:id="@id/dianzan"
+                            android:text="66"
+                            android:gravity="center_vertical"
+                            android:drawableRight="@drawable/ic_dianzan"
+
+                            android:id="@+id/dianzan"
                             android:textSize="16sp" />
                         <TextView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
                             android:layout_margin="5dp"
                             android:text=""
-                            android:background="@drawable/ic_pinglun"
+                            android:drawableLeft="@drawable/ic_pinglun"
 
                             android:id="@id/pinglun"
                             android:layout_alignParentRight="true"
