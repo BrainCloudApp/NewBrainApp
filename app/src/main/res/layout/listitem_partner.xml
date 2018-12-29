@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/user1" />
+
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_image"
+                    android:layout_centerHorizontal="true"
+                    android:text="张三"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="5dp"
+                android:background="#fff">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="今日完成训练情况"
+                    android:gravity="start"
+                    android:textColor="#000"
+                    android:id="@+id/practice_info"
+                    android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#fff"
+                    android:id="@+id/linear_share">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:id="@+id/shareinfo"
+
+                    android:gravity="start"
+                    android:text="患者的分享心得的首付款几乎都是空间发挥的刷卡缴费好的伤口就会放框架的说法好的伤口就会放打开手机号发"
+                    android:singleLine="false"
+                    android:textSize="16sp" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/shareimg"
+                        android:src="@drawable/apple"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/dianzan"
+                            android:text="66"
+                            android:layout_centerVertical="true"
+                            android:id="@+id/dianzancount"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:layout_toLeftOf="@+id/pinglun"
+                            android:text=""
+                            android:background="@drawable/ic_dianzan"
+                            android:id="@id/dianzan"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="5dp"
+                            android:text=""
+                            android:background="@drawable/ic_pinglun"
+
+                            android:id="@id/pinglun"
+                            android:layout_alignParentRight="true"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="sdfdsfds多少付款计划客户说的尽快发货的技术开发第三方会尽快的释放"
+                        android:background="#e8eaf6"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:lineSpacingMultiplier="1.1"
+                        android:id="@+id/pingluninfo"
+                        android:layout_alignParentRight="true"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
