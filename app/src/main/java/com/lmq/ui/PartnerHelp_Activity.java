@@ -155,6 +155,12 @@ public class PartnerHelp_Activity extends BaseActivity{
         shareComment2.setCommenttime("111");
         comments.add(shareComment2);
 
+        ShareComment shareComment3=new ShareComment();
+        shareComment3.setUsername("周某某");
+        shareComment3.setCommentinfo("哈哈哈！");
+        shareComment3.setCommenttime("111");
+        comments.add(shareComment3);
+
         share2.setPinglunlist(comments);
         p2.setShareinfo(share2);
         source.add(p2);

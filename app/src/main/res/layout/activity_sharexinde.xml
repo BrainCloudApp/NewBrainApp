@@ -5,24 +5,28 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:background="@color/colorPrimary">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@null"
+            android:layout_alignParentLeft="true"
             android:textAlignment="textStart"
+            android:layout_gravity="start"
             android:paddingLeft="10dp"
             android:drawableLeft="@drawable/back_white"
             android:drawablePadding="10dp"
             android:textColor="@color/white"
             android:id="@+id/back"
-            android:text="返回"/>
+            android:textSize="@dimen/LargeTextSize"
+            android:text=""/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="分享心得"
 
+            android:textSize="@dimen/LargeTextSize"
             android:drawablePadding="10dp"
             android:textColor="@color/white"
             android:gravity="center_vertical"
@@ -38,6 +42,8 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="10dp"
             android:textColor="@color/white"
+
+            android:textSize="@dimen/LargeTextSize"
             android:id="@+id/action"
             android:text="发表"/>
     </RelativeLayout>
