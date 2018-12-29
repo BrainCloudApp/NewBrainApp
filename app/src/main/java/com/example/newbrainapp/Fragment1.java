@@ -62,10 +62,6 @@ public class Fragment1 extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
 //    public void initNews(){
 //        for (int i = 0; i < 3; i++){
