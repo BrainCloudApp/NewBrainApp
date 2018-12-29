@@ -76,6 +76,7 @@ public class Fragment1 extends Fragment {
                     }
 
                     @Override
+
                     public void onResponse(Call call, Response response) {
                         try {
                             final String update_result = response.body().string();
