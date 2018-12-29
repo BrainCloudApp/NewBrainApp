@@ -21,6 +21,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -28,16 +29,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class PartnerAdapter extends RecyclerView.Adapter {
-  /*  public static interface OnRecyclerViewListener {
-        void onItemClick(int position);
-       // boolean onItemLongClick(int position);
-    }*/
-/*
+   public static interface OnRecyclerViewListener {
+        void onHeadClick(int position);
+        void onDianZanClick(int position);
+        void onPinglunClick(int position);
+    }
+
     private OnRecyclerViewListener onRecyclerViewListener;
 
     public void setOnRecyclerViewListener(OnRecyclerViewListener onRecyclerViewListener) {
         this.onRecyclerViewListener = onRecyclerViewListener;
-    }*/
+    }
 
     private static final String TAG = PartnerAdapter.class.getSimpleName();
     private ArrayList<Partner> source;
@@ -71,24 +73,13 @@ public class PartnerAdapter extends RecyclerView.Adapter {
             holder.shareimg.setImageResource(Integer.valueOf(source.get(i).getShareinfo().getShareimgs()));//应该获取服务端数据
             holder.shareinfo.setText(source.get(i).getShareinfo().getSharecontent());
             int dianzanno = source.get(i).getShareinfo().getDianzancount();
-            holder.dianzancount.setText(dianzanno == 0 ? "" : (dianzanno + ""));
+            holder.dianzan.setText(dianzanno == 0 ? "" : (dianzanno + ""));
 
             String pingluninfostr = source.get(i).getShareinfo().getpingluninfostr();
             holder.pingluninfo.setText(pingluninfostr);
             if (pingluninfostr.length() == 0)
                 holder.pingluninfo.setVisibility(View.GONE);
-            holder.dianzan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mcontext, "点赞！", Toast.LENGTH_SHORT).show();
-                }
-            });
-            holder.pinglun.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mcontext, "评论！", Toast.LENGTH_SHORT).show();
-                }
-            });
+
 
 
         }catch (Exception e){
@@ -103,7 +94,7 @@ public class PartnerAdapter extends RecyclerView.Adapter {
         return source.size();
     }
 
-    class ParterHolder extends RecyclerView.ViewHolder //implements View.OnClickListener
+    class ParterHolder extends RecyclerView.ViewHolder
     {
         public int position;
         public ParterHolder(View view){
@@ -117,17 +108,26 @@ public class PartnerAdapter extends RecyclerView.Adapter {
         @BindView(R.id.dianzan)TextView dianzan;
         @BindView(R.id.pinglun)TextView pinglun;
         @BindView(R.id.shareimg)ImageView shareimg;
-        @BindView(R.id.dianzancount)TextView dianzancount;
+       // @BindView(R.id.dianzancount)TextView dianzancount;
         @BindView(R.id.pingluninfo)TextView pingluninfo;
-
-
-/*
-        @Override
-        public void onClick(View v) {
+        @OnClick(R.id.user_image)
+        public void clickHead(){
             if (null != onRecyclerViewListener) {
-                onRecyclerViewListener.onItemClick(position);
+                onRecyclerViewListener.onHeadClick(position);
             }
-        }*/
+        }
+        @OnClick(R.id.dianzan)
+        public void clickdianzan(){
+            if (null != onRecyclerViewListener) {
+                onRecyclerViewListener.onDianZanClick(position);
+            }
+        }
+        @OnClick(R.id.pinglun)
+        public void clickpinglun(){
+            if (null != onRecyclerViewListener) {
+                onRecyclerViewListener.onPinglunClick(position);
+            }
+        }
 
     }
 

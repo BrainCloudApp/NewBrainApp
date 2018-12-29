@@ -5,10 +5,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
+import com.lmq.common.Appstorage;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PartnerAdapter2;
 import com.lmq.ui.entity.Partner;
@@ -30,9 +32,10 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PartnerHelp_Activity extends BaseActivity{
+public class PartnerHelp_Activity extends BaseActivity implements Login_View{
 
     ArrayList<Partner> source=new ArrayList<>();
+    Login_Presenter mpresenter=new Login_Presenter(this,this);
     @Override
     protected int setContentView(){
         return R.layout.activity_partner;
@@ -92,13 +95,23 @@ public class PartnerHelp_Activity extends BaseActivity{
 
 
         sa = new PartnerAdapter(source,mContext);
-       /* sa.setOnRecyclerViewListener(new PartnerAdapter.OnRecyclerViewListener() {
-            @Override
-            public void onItemClick(int position) {
+        sa.setOnRecyclerViewListener(new PartnerAdapter.OnRecyclerViewListener(){
 
+            @Override
+            public void onHeadClick(int position) {
+                showMes("点击头像："+source.get(position).getName());
             }
 
-        });*/
+            @Override
+            public void onDianZanClick(int position) {
+                showMes("点击点赞："+source.get(position).getName());
+            }
+
+            @Override
+            public void onPinglunClick(int position) {
+                showMes("点击评论："+source.get(position).getName());
+            }
+        });
         recyclerView.setAdapter(sa);
     }
     public void initLocalData(){
@@ -175,8 +188,12 @@ public class PartnerHelp_Activity extends BaseActivity{
     }
     @OnClick(R.id.action)//
     public void sharexinde(){
-        Intent it=new Intent(mContext,ShareXinde_Activity.class);
-        startActivity(it);
+       /* Intent it=new Intent(mContext,ShareXinde_Activity.class);
+        startActivity(it);*/
+        mpresenter.login(Appstorage.getLoginUserName(mContext),Appstorage.getLoginUserPwd(mContext,Appstorage.getLoginUserName(mContext)));
 
+    }
+    public void loginresult(String result){
+        showMes(result);
     }
 }
