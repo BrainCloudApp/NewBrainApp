@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.lmq.ui.PartnerHelp_Activity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +74,14 @@ public class Fragment2 extends Fragment {
                 startActivity(intent);
             }
         });
-
+        CardView partner_help = getActivity().findViewById(R.id.partner_help);
+        partner_help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PartnerHelp_Activity.class);
+                startActivity(intent);
+            }
+        });
         CardView near_hosp = getActivity().findViewById(R.id.loc_help);
         near_hosp.setOnClickListener(new View.OnClickListener() {
             @Override
