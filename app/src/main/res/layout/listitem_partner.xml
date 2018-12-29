@@ -60,6 +60,7 @@
                     android:gravity="start"
                     android:textColor="#000"
                     android:id="@+id/practice_info"
+                    android:visibility="gone"
                     android:textSize="16sp" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,14 +120,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+
                         android:layout_margin="5dp"
-                        android:text="sdfdsfds多少付款计划客户说的尽快发货的技术开发第三方会尽快的释放"
+
+                        android:gravity="start"
+                        android:text="患者的分享心得的首付款几乎都是空间发挥的刷卡缴费好的伤口就会放框架的说法好的伤口就会放打开手机号发"
+                        android:singleLine="false"
                         android:background="#e8eaf6"
                         android:padding="5dp"
-                        android:gravity="center_vertical"
                         android:lineSpacingMultiplier="1.1"
+
                         android:id="@+id/pingluninfo"
-                        android:layout_alignParentRight="true"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>

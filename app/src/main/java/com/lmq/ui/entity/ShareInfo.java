@@ -13,9 +13,12 @@ public class ShareInfo implements Serializable{
         if(this.pinglunlist==null||this.pinglunlist.size()==0)
             return "";
         String result="";
-        for(ShareComment c : this.pinglunlist){
-            result+=c.getUsername()+":"+c.getCommentinfo()+"\n";
+        for(int i=0;i<this.pinglunlist.size();i++){
+            result+=this.pinglunlist.get(i).getUsername()+":"+this.pinglunlist.get(i).getCommentinfo();
+            if(i<this.pinglunlist.size()-1)
+                result+="\n";
         }
+
         return result;
     }
 

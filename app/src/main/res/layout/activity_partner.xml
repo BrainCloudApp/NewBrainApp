@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:background="@color/colorPrimary">
         <Button
             android:layout_width="wrap_content"
@@ -19,12 +19,14 @@
             android:drawablePadding="10dp"
             android:textColor="@color/white"
             android:id="@+id/back"
-            android:text="返回"/>
+            android:textSize="@dimen/LargeTextSize"
+            android:text=""/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="同伴互助"
 
+            android:textSize="@dimen/LargeTextSize"
             android:drawablePadding="10dp"
             android:textColor="@color/white"
             android:gravity="center_vertical"
@@ -40,8 +42,10 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="10dp"
             android:textColor="@color/white"
+            android:textSize="@dimen/LargeTextSize"
             android:id="@+id/action"
-            android:text="分享心得"/>
+            android:drawableRight="@drawable/share"
+            android:text=""/>
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"

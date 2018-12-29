@@ -5,7 +5,7 @@
     <dimen name="shadow_width">3dp</dimen>
  <dimen name="TitleTextSize">14dp</dimen>
     <dimen name="LargeTextSize">20dp</dimen>
-    <dimen name="linepaddingbutton">0dp</dimen>
+    <dimen name="linepaddingbutton">5dp</dimen>
 
        
 

@@ -66,7 +66,7 @@ public class PartnerAdapter extends RecyclerView.Adapter {
 
             holder.img.setImageResource(R.drawable.user1);
             holder.username.setText(source.get(i).getName());
-            holder.practice_info.setText(source.get(i).getPracticelist());
+          //  holder.practice_info.setText(source.get(i).getPracticelist());
 
             holder.shareimg.setImageResource(Integer.valueOf(source.get(i).getShareinfo().getShareimgs()));//应该获取服务端数据
             holder.shareinfo.setText(source.get(i).getShareinfo().getSharecontent());
