@@ -10,4 +10,6 @@ import com.example.newbrainapp.HttpUtil;
 public class AppContact {
     public static String getBaseUrl= HttpUtil.IP;
     //https://github.com/m1992001/NewApp.git    adffdddde7d4358adc84963882da5e0c4f2c126c
+    public static String FileStorePath="NewBrainApp";
+    public static  String ImageFileStorePath="NewBrainApp/imgs/";
 }

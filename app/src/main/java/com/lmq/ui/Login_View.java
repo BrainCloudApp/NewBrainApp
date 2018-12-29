@@ -9,5 +9,5 @@ import java.util.ArrayList;
 
 public interface Login_View {
     void loginresult(String result);
-   // void getinitcontent(ArrayList<Content> result);
+  //  void getinitcontent(ArrayList<Content> result);
 }

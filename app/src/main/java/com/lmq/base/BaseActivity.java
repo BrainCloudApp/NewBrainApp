@@ -48,6 +48,13 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
      * 初始化view
      */
     protected abstract void initView();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

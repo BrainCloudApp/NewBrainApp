@@ -10,9 +10,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -53,6 +58,10 @@
         <activity android:name=".WebView2" />
         <activity android:name=".WebView3" />
         <activity android:name=".PersonInfo"></activity>
+        <activity android:name="com.lmq.ui.PartnerHelp_Activity" >
+
+        </activity>
+        <activity android:name="com.lmq.ui.ShareXinde_Activity"/>
     </application>
 
 </manifest>
