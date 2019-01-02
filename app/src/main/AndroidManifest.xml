@@ -58,10 +58,22 @@
         <activity android:name=".WebView2" />
         <activity android:name=".WebView3" />
         <activity android:name=".PersonInfo"></activity>
-        <activity android:name="com.lmq.ui.PartnerHelp_Activity" >
+        <activity android:name="com.lmq.ui.PartnerHelp_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  >
 
         </activity>
         <activity android:name="com.lmq.ui.ShareXinde_Activity"/>
+        <activity android:name="com.lmq.ui.PersonList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.DoctorList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.Person_Info_Activity"  />
+        <activity android:name="com.lmq.ui.Doctor_Info_Activity"  />
+        <activity android:name="com.lmq.ui.PersonShareList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.Settings_Activity"  />
+        <activity android:name="com.lmq.ui.Settings_Advice_Activity"  />
+        <activity android:name="com.lmq.tool.Url_Web"  />
     </application>
 
 </manifest>
