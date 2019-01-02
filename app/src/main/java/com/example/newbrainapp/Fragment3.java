@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.lmq.ui.Settings_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,15 @@ public class Fragment3 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initItem();
+        Button settings=(Button)getActivity().findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent it=new Intent(getActivity(), Settings_Activity.class);
+                startActivity(it);
+            }
+        });
         ItemAdapter adapter = new ItemAdapter(getContext(), R.layout.my_item, myListItems);
         final ListView listView = getActivity().findViewById(R.id.my_item_list);
         listView.setAdapter(adapter);

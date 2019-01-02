@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="同伴互助"
+            android:text="搜索"
 
             android:textSize="@dimen/LargeTextSize"
             android:drawablePadding="10dp"
@@ -45,6 +45,7 @@
             android:textSize="@dimen/LargeTextSize"
             android:id="@+id/action"
             android:drawableRight="@drawable/share"
+            android:visibility="gone"
             android:text=""/>
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -59,47 +60,6 @@
             android:overScrollMode="never"
             android:background="#fff" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
 
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/graylineconerbg"
-        android:padding="5dp"
-        android:layout_centerVertical="true"
-        android:id="@+id/linear_pinglun">
-
-        <EditText android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:singleLine="true"
-            android:gravity="center_vertical"
-            android:hint="请输入评论内容"
-            android:textSize="15dip"
-            android:imeOptions="actionDone"
-            android:textColorHint="#cbcbd1"
-            android:textColor="#cbcbd1"
-            android:cursorVisible="true"
-            android:textCursorDrawable="@null"
-
-            android:id="@+id/pinglunedit"/>
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="35dp"
-            android:text="评论"
-
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="1dp"
-            android:background="@drawable/bt_pinglun_selector"
-            android:id="@+id/pinglun"
-            android:textColor="#000" />
-    </LinearLayout>
 
 </LinearLayout>

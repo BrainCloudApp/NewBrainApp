@@ -80,5 +80,13 @@ public class Appstorage  {
        ArrayList<News> arrayList = LmqTool.jsonToArrayList(newsData, News.class);
        return arrayList;
    }
+    public  static void setMessageState(Context mcontext,boolean ison){
+        initModel(mcontext);
+        myModule.put("user.messagestate",ison);
+    }
+    public static boolean getMessageState(Context mcontext){
+        initModel(mcontext);
+        return myModule.getBoolean("user.messagestate",false);
+    }
 
 }

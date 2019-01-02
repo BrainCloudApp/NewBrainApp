@@ -13,16 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.newbrainapp.R;
 import com.lmq.ui.entity.Partner;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,13 +28,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PartnerAdapter extends RecyclerView.Adapter {
+public class PersonShareListAdapter extends RecyclerView.Adapter {
    public static interface OnRecyclerViewListener {
         void onHeadClick(int position);
         void onDianZanClick(int position);
         void onPinglunClick(int position);
-        void search(String keyworkd);
-        void showTip(String mes);
+       // void search(String keyworkd);
+      //  void showTip(String mes);
     }
 
     private OnRecyclerViewListener onRecyclerViewListener;
@@ -48,11 +43,11 @@ public class PartnerAdapter extends RecyclerView.Adapter {
         this.onRecyclerViewListener = onRecyclerViewListener;
     }
 
-    private static final String TAG = PartnerAdapter.class.getSimpleName();
+    private static final String TAG = PersonShareListAdapter.class.getSimpleName();
     private ArrayList<Partner> source;
     private Context mcontext;
 
-    public PartnerAdapter(ArrayList<Partner> list, Context mcontext) {
+    public PersonShareListAdapter(ArrayList<Partner> list, Context mcontext) {
         this.source = list;
         this.mcontext=mcontext;
     }
@@ -77,55 +72,26 @@ public class PartnerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         try {
-            if(position==0) {
-              final   ParterHolder holder = (ParterHolder) viewHolder;
-                holder.searchlinear.setVisibility(View.VISIBLE);
-                holder.xindelinear.setVisibility(View.GONE);
 
-                holder.keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH||actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
-                            //TODO回车键按下时要执行的操作
-                            if (TextUtils.isEmpty(holder.keyword.getText().toString().trim())){
-
-                                onRecyclerViewListener.showTip("请输入患者名字！");
-                                return true;
-                            }else {
-                                onRecyclerViewListener.search(holder.keyword.getText().toString().trim());
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-
-                if(holder.keyword.getText().toString().trim().length()>0){
-                    holder.cancle.setVisibility(View.VISIBLE);
-                }else
-                    holder.cancle.setVisibility(View.GONE);
-
-            }else{
                 ParterHolder holder = (ParterHolder) viewHolder;
                 holder.searchlinear.setVisibility(View.GONE);
                 holder.xindelinear.setVisibility(View.VISIBLE);
-                holder.position = position-1;
+                holder.position = position;
 
                 holder.img.setImageResource(R.drawable.user1);
-                holder.username.setText(source.get(position-1).getName());
+                holder.username.setText(source.get(position).getName());
                 //  holder.practice_info.setText(source.get(i).getPracticelist());
 
-                holder.shareimg.setImageResource(Integer.valueOf(source.get(position-1).getShareinfo().getShareimgs()));//应该获取服务端数据
-                holder.shareinfo.setText(source.get(position-1).getShareinfo().getSharecontent());
-                int dianzanno = source.get(position-1).getShareinfo().getDianzancount();
+                holder.shareimg.setImageResource(Integer.valueOf(source.get(position).getShareinfo().getShareimgs()));//应该获取服务端数据
+                holder.shareinfo.setText(source.get(position).getShareinfo().getSharecontent());
+                int dianzanno = source.get(position).getShareinfo().getDianzancount();
                 holder.dianzan.setText(dianzanno == 0 ? "" : (dianzanno + ""));
 
-                String pingluninfostr = source.get(position-1).getShareinfo().getpingluninfostr();
+                String pingluninfostr = source.get(position).getShareinfo().getpingluninfostr();
                 holder.pingluninfo.setText(pingluninfostr);
                 if (pingluninfostr.length() == 0)
                     holder.pingluninfo.setVisibility(View.GONE);
-            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -135,7 +101,7 @@ public class PartnerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return source.size()+1;
+        return source.size();
     }
 
    /* class  SearchHolder extends RecyclerView.ViewHolder{

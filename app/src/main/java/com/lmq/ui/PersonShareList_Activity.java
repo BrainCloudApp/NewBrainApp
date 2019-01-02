@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.newbrainapp.R;
@@ -22,7 +21,7 @@ import com.lmq.base.BaseActivity;
 import com.lmq.common.Appstorage;
 import com.lmq.tool.LmqTool;
 import com.lmq.ui.adapter.PartnerAdapter;
-import com.lmq.ui.adapter.PartnerAdapter2;
+import com.lmq.ui.adapter.PersonShareListAdapter;
 import com.lmq.ui.entity.Partner;
 import com.lmq.ui.entity.ShareComment;
 import com.lmq.ui.entity.ShareInfo;
@@ -42,14 +41,14 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PartnerHelp_Activity extends BaseActivity implements Login_View{
+public class PersonShareList_Activity extends BaseActivity implements Login_View{
 
     ArrayList<Partner> source=new ArrayList<>();
     Login_Presenter mpresenter=new Login_Presenter(this,this);
 
     @Override
     protected int setContentView(){
-        return R.layout.activity_partner;
+        return R.layout.activity_personsharelist;
     }
 
     @Override
@@ -70,7 +69,7 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
     }
 
 
-    PartnerAdapter sa;
+    PersonShareListAdapter sa;
 
     @BindView(R.id.refreshLayout)SmartRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView)RecyclerView recyclerView;
@@ -118,14 +117,12 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         });
 
 
-        sa = new PartnerAdapter(source,mContext);
-        sa.setOnRecyclerViewListener(new PartnerAdapter.OnRecyclerViewListener(){
+        sa = new PersonShareListAdapter(source,mContext);
+        sa.setOnRecyclerViewListener(new PersonShareListAdapter.OnRecyclerViewListener(){
 
             @Override
             public void onHeadClick(int position) {
-                //showMes("点击头像："+source.get(position).getName());
-                Intent it=new Intent(mContext,Person_Info_Activity.class);
-                startActivity(it);
+             //   showMes("点击头像："+source.get(position).getName());
             }
 
             @Override
@@ -139,22 +136,7 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
                 showPinglun();
             }
 
-            @Override
-            public void search(String keyworkd) {
 
-                if(!LmqTool.isFastClick()) {
-                    showMes("搜索名字");
-                    closeKeyboard();
-                    Intent it = new Intent(mContext, PersonList_Activity.class);
-                    startActivity(it);
-                }
-            }
-
-            @Override
-            public void showTip(String mes) {
-
-                showMes(mes);
-            }
         });
         recyclerView.setAdapter(sa);
         closeKeyboard();
@@ -231,13 +213,7 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
     public void goback(){
         finish();
     }
-    @OnClick(R.id.action)//
-    public void sharexinde(){
-       /* Intent it=new Intent(mContext,ShareXinde_Activity.class);
-        startActivity(it);*/
-        mpresenter.login(Appstorage.getLoginUserName(mContext),Appstorage.getLoginUserPwd(mContext,Appstorage.getLoginUserName(mContext)));
 
-    }
     public void loginresult(String result){
         showMes(result);
     }
