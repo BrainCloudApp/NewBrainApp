@@ -76,6 +76,7 @@
         <activity android:name="com.lmq.tool.Url_Web"  />
         <activity android:name="com.lmq.ui.Settings_Message_Activity"  />
         <activity android:name="com.lmq.ui.MessageList_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_Activity"  />
     </application>
 
 </manifest>

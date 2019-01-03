@@ -1,19 +1,16 @@
 package com.lmq.common;
 
-import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.r.http.cn.RHttp;
 import com.r.http.cn.callback.HttpCallback;
 import com.r.http.cn.callback.UploadCallback;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
+
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by Administrator on 2018/12/25 0025.
@@ -33,27 +30,25 @@ public class Appservices {
     private final String ADVICE= "/app/advice";//软件意见建议
 
     private final String MESSAGE= "/app/message";//用户消息列表
+    private final String HEALTHINFO= "/app/healthinfo";//用户健康档案
 
-    public void login(String username, String password, LifecycleProvider lifecycle, HttpCallback callback) {
-        /**
-         * 构建请求参数
-         */
-      //  TreeMap<String, Object> request = new TreeMap<>();
+    /**
+     * 接口请求
+     * @param api 请求方法
+     * @param param 参数
+     * @param lifecycle
+     * @param callback
+     */
+    public void request(String api,JSONObject param,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("username", username);
-            request.put("password", password);
 
 
-            /**
-             * 发送请求
-             */
+            String bodystring=param==null?"":String.valueOf(param);
             RHttp http = new RHttp.Builder()
                     .post()
                     .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(LOGIN)
-                    .setBodyString(String.valueOf(request), true)
-                    //  .addParameter(request)
+                    .apiUrl(api)
+                    .setBodyString(bodystring, true)
                     .lifecycle(lifecycle)
                     .build();
 
@@ -62,18 +57,59 @@ public class Appservices {
             e.printStackTrace();
             callback.onError(1,e.getMessage());
         }
+    }
+
+    /**
+     * 带文件上传的接口请求
+     * @param api 请求方法
+     * @param param json参数
+     * @param fileMap 文件
+     * @param lifecycle
+     * @param callback
+     */
+    public void upload(String api,JSONObject param,Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback){
+        try {
+
+            String bodystring=param==null?"":String.valueOf(param);
+            /**
+             * 发送请求
+             */
+            new RHttp.Builder()
+                    .post()
+                    .baseUrl(AppContact.getBaseUrl)
+                    .apiUrl(api)
+
+                    .setBodyString(bodystring, true)
+
+                    .file(fileMap)
+                    .lifecycle(lifecycle)
+                    .build()
+                    .upload(callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+    public void login(String username, String password, LifecycleProvider lifecycle, HttpCallback callback) {
+
+      //  TreeMap<String, Object> request = new TreeMap<>();
+        try {
+            JSONObject param = new JSONObject();
+            param.put("username", username);
+            param.put("password", password);
+            request(LOGIN,param,lifecycle,callback);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
 
     }
     public void getinitContent(LifecycleProvider lifecycle, HttpCallback callback){
-        RHttp http = new RHttp.Builder()
-                .get()
-                .baseUrl(AppContact.getBaseUrl)
-                .apiUrl(INITCONTENT)
+        request(INITCONTENT,null,lifecycle,callback);
 
-                .lifecycle(lifecycle)
-                .build();
 
-        http.request(callback);
 
     }
 
@@ -85,18 +121,10 @@ public class Appservices {
      */
     public void getexpriencelist(String keyword,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("keyword", keyword);
+            JSONObject param = new JSONObject();
+            param.put("keyword", keyword);
+            request(SHAREEXPLIST,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(SHAREEXPLIST)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
-
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -111,18 +139,11 @@ public class Appservices {
      */
     public void getPatientexpriencelist(String id_pat,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_pat", id_pat);
+            JSONObject param = new JSONObject();
+            param.put("id_pat", id_pat);
+            request(PATIENT_SHAREEXPLIST,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(PATIENT_SHAREEXPLIST)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
 
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -137,18 +158,11 @@ public class Appservices {
 
     public void supportExp(String id_ex,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_ex", id_ex);
+            JSONObject param = new JSONObject();
+            param.put("id_ex", id_ex);
+            request(SHAREEXP_ZAN,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(SHAREEXP_ZAN)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
 
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -165,23 +179,11 @@ public class Appservices {
      */
     public void comment(String id_ex,String content, Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback) {
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_ex", id_ex);
-            request.put("cotent", content);
-            /**
-             * 发送请求
-             */
-            new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(SHAREEXP_COMMENT)
+            JSONObject param = new JSONObject();
+            param.put("id_ex", id_ex);
+            param.put("cotent", content);
+            upload(SHAREEXP_COMMENT,param,fileMap,lifecycle,callback);
 
-                    .setBodyString(String.valueOf(request), true)
-
-                    .file(fileMap)
-                    .lifecycle(lifecycle)
-                    .build()
-                    .upload(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -196,18 +198,11 @@ public class Appservices {
      */
     public void searchPatient(String keyword,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("keyword", keyword);
+            JSONObject param = new JSONObject();
+            param.put("keyword", keyword);
+            request(SEARCH_PATIENT,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(SEARCH_PATIENT)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
 
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -222,18 +217,10 @@ public class Appservices {
      */
     public void searchDoctor(String keyword,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("keyword", keyword);
+            JSONObject param = new JSONObject();
+            param.put("keyword", keyword);
+            request(SEARCH_DOCTOR,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(SEARCH_DOCTOR)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
-
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -248,18 +235,11 @@ public class Appservices {
      */
     public void getPatientInfo(String id_pat,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_pat", id_pat);
+            JSONObject param = new JSONObject();
+            param.put("id_pat", id_pat);
+            request(DETAIL_PATIENT,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(DETAIL_PATIENT)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
 
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -274,18 +254,10 @@ public class Appservices {
      */
     public void getDoctorInfo(String id_doc,LifecycleProvider lifecycle, HttpCallback callback){
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_doc", id_doc);
+            JSONObject param = new JSONObject();
+            param.put("id_doc", id_doc);
+            request(DETAIL_DOCTOR,param,lifecycle,callback);
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(DETAIL_DOCTOR)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
-
-            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -301,22 +273,11 @@ public class Appservices {
      */
     public void advice(String content, Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback) {
         try {
-            JSONObject request = new JSONObject();
-            request.put("cotent", content);
-            /**
-             * 发送请求
-             */
-            new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(ADVICE)
+            JSONObject param = new JSONObject();
+            param.put("cotent", content);
 
-                    .setBodyString(String.valueOf(request), true)
+            upload(ADVICE,param,fileMap,lifecycle,callback);
 
-                    .file(fileMap)
-                    .lifecycle(lifecycle)
-                    .build()
-                    .upload(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
@@ -331,20 +292,23 @@ public class Appservices {
      * @param callback
      */
     public void getUserMessage(String id_pat,int type,LifecycleProvider lifecycle, HttpCallback callback){
+
         try {
-            JSONObject request = new JSONObject();
-            request.put("id_pat", id_pat);
-            request.put("type", type);
+            JSONObject param = new JSONObject();
+            param.put("id_pat", id_pat);
+            param.put("type", type);
+            request(MESSAGE,param,lifecycle,callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+    public void getUserHealthInfo(String id_pat,LifecycleProvider lifecycle, HttpCallback callback){
 
-            RHttp http = new RHttp.Builder()
-                    .post()
-                    .baseUrl(AppContact.getBaseUrl)
-                    .apiUrl(MESSAGE)
-                    .setBodyString(String.valueOf(request), true)
-                    .lifecycle(lifecycle)
-                    .build();
-
-            http.request(callback);
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_pat", id_pat);
+            request(HEALTHINFO,param,lifecycle,callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.lmq.ui.HealthInfo_Activity;
 import com.lmq.ui.Settings_Activity;
 import com.lmq.ui.Settings_Message_Activity;
 
@@ -70,8 +71,8 @@ public class Fragment3 extends Fragment {
 //                        startActivity(intent1);
                         break;
                     case "健康档案":
-//                        Intent intent3 = new Intent(getActivity(), WebView3.class);
-//                        startActivity(intent3);
+                        Intent intent3 = new Intent(getActivity(), HealthInfo_Activity.class);
+                        startActivity(intent3);
                         break;
                     case "治疗记录":
                         Intent intent4 = new Intent(getActivity(), WebView1.class);
