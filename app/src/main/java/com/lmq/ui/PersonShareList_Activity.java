@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
 import com.lmq.common.Appstorage;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
 import com.lmq.tool.LmqTool;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PersonShareListAdapter;
@@ -41,11 +43,14 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PersonShareList_Activity extends BaseActivity implements Login_View{
+public class PersonShareList_Activity extends BaseActivity implements CommonView{
 
     ArrayList<Partner> source=new ArrayList<>();
-    Login_Presenter mpresenter=new Login_Presenter(this,this);
-
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
+    private static  final int TAG_REFRESH=0;
+    private static  final int TAG_LOADMORE=1;
+    private  int requestTag=0;//0刷新，1 加载更多
+    String id_pat="";//患者id
     @Override
     protected int setContentView(){
         return R.layout.activity_personsharelist;
@@ -59,6 +64,10 @@ public class PersonShareList_Activity extends BaseActivity implements Login_View
     @Override
     protected void initView() {
         try {
+            setTitle("分享心得");
+            id_pat=getIntent().getStringExtra("id");
+            if(id_pat==null)
+                id_pat="";
             initLocalData();
             initrefresh();
             setListView();
@@ -67,7 +76,17 @@ public class PersonShareList_Activity extends BaseActivity implements Login_View
             e.printStackTrace();
         }
     }
+    public void onResult(String result){
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(true);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(true);
+                break;
+        }
 
+    }
 
     PersonShareListAdapter sa;
 
@@ -79,17 +98,18 @@ public class PersonShareList_Activity extends BaseActivity implements Login_View
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+                //refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+                mpresenter.getPatientExprienceList(id_pat);
             }
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+      /*  refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/**,false*/);//传入false表示加载失败
+                refreshlayout.finishLoadMore(2000*//**,false*//*);//传入false表示加载失败
             }
-        });
+        });*/
         refreshLayout.setRefreshHeader(new ClassicsHeader(this));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(this));
+       // refreshLayout.setRefreshFooter(new ClassicsFooter(this));
     }
     public void setListView(){
         recyclerView.setHasFixedSize(true);
@@ -209,10 +229,7 @@ public class PersonShareList_Activity extends BaseActivity implements Login_View
 
     }
 
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
+
 
     public void loginresult(String result){
         showMes(result);

@@ -18,7 +18,9 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -54,7 +56,14 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
         super.onBackPressed();
         finish();
     }
-
+    @OnClick(R.id.back)
+    public void goback(){
+        finish();
+    }
+    @BindView(R.id.title)TextView titletxt;
+    public void setTitle(String title){
+        titletxt.setText(title);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

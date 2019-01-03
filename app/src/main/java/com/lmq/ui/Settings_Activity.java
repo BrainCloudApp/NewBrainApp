@@ -37,6 +37,7 @@ public class Settings_Activity extends BaseActivity{
     protected void initView() {
         try {
          //  initListView();
+            setTitle("设置");
             mes_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -49,10 +50,7 @@ public class Settings_Activity extends BaseActivity{
     }
     //@BindView(R.id.list)ListView listView;
     @BindView(R.id.mes_switch)Switch mes_switch;
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
+
     @OnClick(R.id.exit)
     public void exitlocin(){
         showExitLogin();
