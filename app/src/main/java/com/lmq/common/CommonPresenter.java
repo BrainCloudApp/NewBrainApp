@@ -432,4 +432,54 @@ public class CommonPresenter extends BasePresenter<CommonView, LifecycleProvider
         new Appservices().searchPatient(keyword,getActivity(), httpCallback);
 
     }
+    public void getUserMessage(String id_pat,int type) {
+
+        if (getView() != null)
+            // getView().showLoading();
+            ((BaseActivity)getActivity()).showLoading();
+
+
+
+        CommonAllHttpCallback httpCallback = new CommonAllHttpCallback<String>() {
+
+            @Override
+            public String convert(String data) {
+                return data;
+                // return new Gson().fromJson(data, String.class);
+            }
+
+            @Override
+            public void onSuccess(String object) {
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).closeLoading();
+                    if(object!=null) {
+
+                        getView().onResult(object);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int code, String desc) {
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).showError(desc);
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                LogUtils.e("请求取消了");
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).closeLoading();
+                }
+            }
+        };
+
+
+        new Appservices().getUserMessage(id_pat,type,getActivity(), httpCallback);
+
+    }
 }

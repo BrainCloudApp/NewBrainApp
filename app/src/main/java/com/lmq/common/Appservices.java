@@ -32,6 +32,7 @@ public class Appservices {
     private final String DETAIL_DOCTOR   ="/app/detail_doctor";//医生信息详情
     private final String ADVICE= "/app/advice";//软件意见建议
 
+    private final String MESSAGE= "/app/message";//用户消息列表
 
     public void login(String username, String password, LifecycleProvider lifecycle, HttpCallback callback) {
         /**
@@ -316,6 +317,34 @@ public class Appservices {
                     .lifecycle(lifecycle)
                     .build()
                     .upload(callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+
+    /**
+     * 获取用户消息
+     * @param id_pat 用户id
+     * @param type 类别 1训练提醒 2 追踪警报
+     * @param lifecycle
+     * @param callback
+     */
+    public void getUserMessage(String id_pat,int type,LifecycleProvider lifecycle, HttpCallback callback){
+        try {
+            JSONObject request = new JSONObject();
+            request.put("id_pat", id_pat);
+            request.put("type", type);
+
+            RHttp http = new RHttp.Builder()
+                    .post()
+                    .baseUrl(AppContact.getBaseUrl)
+                    .apiUrl(MESSAGE)
+                    .setBodyString(String.valueOf(request), true)
+                    .lifecycle(lifecycle)
+                    .build();
+
+            http.request(callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());
