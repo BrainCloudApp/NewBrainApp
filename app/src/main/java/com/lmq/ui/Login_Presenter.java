@@ -3,6 +3,7 @@ package com.lmq.ui;
 import com.lmq.base.BaseActivity;
 import com.lmq.base.BasePresenter;
 import com.lmq.common.Appservices;
+import com.lmq.http.CommonAllHttpCallback;
 import com.lmq.http.CommonHttpCallback;
 import com.lmq.tool.LmqTool;
 import com.r.http.cn.utils.LogUtils;
@@ -27,7 +28,7 @@ public class Login_Presenter extends BasePresenter<Login_View, LifecycleProvider
      *
      * @author ZhongDaFeng
      */
-    public void login(String userName, String password) {
+    public void     login(String userName, String password) {
 
         if (getView() != null)
             // getView().showLoading();
@@ -74,6 +75,57 @@ public class Login_Presenter extends BasePresenter<Login_View, LifecycleProvider
         };
 
         new Appservices().login(userName, password, getActivity(), httpCallback);
+
+
+    }
+    public void getContent() {
+
+        if (getView() != null)
+            // getView().showLoading();
+            ((BaseActivity)getActivity()).showLoading();
+
+
+
+        CommonAllHttpCallback httpCallback = new CommonAllHttpCallback<String>() {
+
+            @Override
+            public String convert(String data) {
+                return data;
+                // return new Gson().fromJson(data, String.class);
+            }
+
+            @Override
+            public void onSuccess(String object) {
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).closeLoading();
+                    if(object!=null) {
+
+                        getView().loginresult(object);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int code, String desc) {
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).showError(desc);
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                LogUtils.e("请求取消了");
+                if (getView() != null) {
+
+                    ((BaseActivity)getActivity()).closeLoading();
+                }
+            }
+        };
+
+
+        new Appservices().getinitContent(getActivity(), httpCallback);
 
     }
 
