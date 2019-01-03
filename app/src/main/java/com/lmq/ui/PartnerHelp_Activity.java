@@ -235,8 +235,8 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
     public void sharexinde(){
        /* Intent it=new Intent(mContext,ShareXinde_Activity.class);
         startActivity(it);*/
-        mpresenter.login(Appstorage.getLoginUserName(mContext),Appstorage.getLoginUserPwd(mContext,Appstorage.getLoginUserName(mContext)));
-
+       mpresenter.login("张三","111");
+       // mpresenter.getContent();
     }
     public void loginresult(String result){
         showMes(result);
