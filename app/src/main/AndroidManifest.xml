@@ -74,6 +74,8 @@
         <activity android:name="com.lmq.ui.Settings_Activity"  />
         <activity android:name="com.lmq.ui.Settings_Advice_Activity"  />
         <activity android:name="com.lmq.tool.Url_Web"  />
+        <activity android:name="com.lmq.ui.Settings_Message_Activity"  />
+        <activity android:name="com.lmq.ui.MessageList_Activity"  />
     </application>
 
 </manifest>

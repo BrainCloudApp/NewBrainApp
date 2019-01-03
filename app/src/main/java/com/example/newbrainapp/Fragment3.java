@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lmq.ui.Settings_Activity;
+import com.lmq.ui.Settings_Message_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,8 @@ public class Fragment3 extends Fragment {
                 switch (myListItem.getItemName()) {
                     case "消息提醒":
 //                        Log.d("Switch", myListItem.getItemName());
-//                        Intent intent = new Intent(getActivity(), WebView1.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(getActivity(), Settings_Message_Activity.class);
+                        startActivity(intent);
                         break;
                     case "个人基本信息":
                         Toast.makeText(getContext(), myListItem.getItemName(), Toast.LENGTH_LONG);
