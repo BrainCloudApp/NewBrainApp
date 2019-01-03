@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
 import com.lmq.common.Appstorage;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PersonAdapter;
 import com.lmq.ui.entity.Partner;
@@ -41,11 +43,14 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PersonList_Activity extends BaseActivity implements Login_View{
+public class PersonList_Activity extends BaseActivity implements CommonView{
 
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
     ArrayList<Person> source=new ArrayList<>();
-    Login_Presenter mpresenter=new Login_Presenter(this,this);
-
+    private static  final int TAG_REFRESH=0;
+    private static  final int TAG_LOADMORE=1;
+    private  int requestTag=0;//0刷新，1 加载更多
+    private String keyword="";
     @Override
     protected int setContentView(){
         return R.layout.activity_person;
@@ -59,6 +64,7 @@ public class PersonList_Activity extends BaseActivity implements Login_View{
     @Override
     protected void initView() {
         try {
+            setTitle("同伴搜索");
             initLocalData();
             initrefresh();
             setListView();
@@ -66,8 +72,29 @@ public class PersonList_Activity extends BaseActivity implements Login_View{
             e.printStackTrace();
         }
     }
+    public void onResult(String result){
 
+    }
 
+    @Override
+    public void showError(String err) {
+        super.showError(err);
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(false);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(false);
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mpresenter.getActivity()==null)
+            mpresenter=new CommonPresenter(this,this);
+    }
     PersonAdapter sa;
 
     @BindView(R.id.refreshLayout)SmartRefreshLayout refreshLayout;
@@ -78,17 +105,19 @@ public class PersonList_Activity extends BaseActivity implements Login_View{
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+               // refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+                requestTag=0;
+                mpresenter.searchPatient(keyword);
             }
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+      /*  refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/**,false*/);//传入false表示加载失败
+                refreshlayout.finishLoadMore(2000*//**,false*//*);//传入false表示加载失败
             }
-        });
+        });*/
         refreshLayout.setRefreshHeader(new ClassicsHeader(this));
-        refreshLayout.setRefreshFooter(new ClassicsFooter(this));
+    //    refreshLayout.setRefreshFooter(new ClassicsFooter(this));
     }
     public void setListView(){
         recyclerView.setHasFixedSize(true);
@@ -122,7 +151,9 @@ public class PersonList_Activity extends BaseActivity implements Login_View{
             @Override
             public void search(String keyworkd) {
                 showMes("搜索");
+                keyword=keyword;
                 closeKeyboard();
+                mpresenter.searchPatient(keyword);
             }
 
             @Override
@@ -153,10 +184,6 @@ public class PersonList_Activity extends BaseActivity implements Login_View{
 
     }
 
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
    /* @OnClick(R.id.action)//
     public void sharexinde(){
        *//* Intent it=new Intent(mContext,ShareXinde_Activity.class);

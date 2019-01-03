@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
 import com.lmq.common.Appstorage;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
 import com.lmq.tool.LmqTool;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PartnerAdapter2;
@@ -42,11 +44,14 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PartnerHelp_Activity extends BaseActivity implements Login_View{
+public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
     ArrayList<Partner> source=new ArrayList<>();
-    Login_Presenter mpresenter=new Login_Presenter(this,this);
-
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
+    private static  final int TAG_REFRESH=0;
+    private static  final int TAG_LOADMORE=1;
+    private  int requestTag=0;//0刷新，1 加载更多
+    private String keyword="";
     @Override
     protected int setContentView(){
         return R.layout.activity_partner;
@@ -56,10 +61,19 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
     protected void initBundleData() {
 
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mpresenter.getActivity()==null)
+            mpresenter=new CommonPresenter(this,this);
+    }
     @Override
     protected void initView() {
         try {
+            setTitle("同伴互助");
+            keyword=getIntent().getStringExtra("keyword");
+            if(keyword==null)
+                keyword="";
             initLocalData();
             initrefresh();
             setListView();
@@ -68,8 +82,29 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
             e.printStackTrace();
         }
     }
+    public void onResult(String result){
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(true);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(true);
+                break;
+        }
+    }
 
-
+    @Override
+    public void showError(String err) {
+        super.showError(err);
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(false);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(false);
+                break;
+        }
+    }
     PartnerAdapter sa;
 
     @BindView(R.id.refreshLayout)SmartRefreshLayout refreshLayout;
@@ -80,7 +115,8 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+               // refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+                mpresenter.getExprienceList(keyword);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -227,15 +263,11 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
 
     }
 
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
     @OnClick(R.id.action)//
     public void sharexinde(){
-       /* Intent it=new Intent(mContext,ShareXinde_Activity.class);
-        startActivity(it);*/
-       mpresenter.login("张三","111");
+        Intent it=new Intent(mContext,ShareXinde_Activity.class);
+        startActivity(it);
+      // mpresenter.login("张三","111");
        // mpresenter.getContent();
     }
     public void loginresult(String result){

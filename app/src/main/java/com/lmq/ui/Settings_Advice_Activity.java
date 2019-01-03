@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
 import com.lmq.tool.DialogItem;
 import com.lmq.tool.FileCache;
 import com.lmq.tool.LmqTool;
@@ -28,7 +30,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class Settings_Advice_Activity extends BaseActivity {
+public class Settings_Advice_Activity extends BaseActivity implements CommonView{
+
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
     private static final int ACTIVITYRESULT_CHOSE_SYSIMG=2;
     private static final int ACTIVITYRESULT_CHOSE_TAKEIMG=3;
     private static final int ACTIVITYRESULT_CUTIMG=4;
@@ -50,6 +54,7 @@ public class Settings_Advice_Activity extends BaseActivity {
     protected void initView() {
         try {
 
+            setTitle("意见建议");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -65,10 +70,7 @@ public class Settings_Advice_Activity extends BaseActivity {
 
     @BindView(R.id.inputtxt)EditText inputtxt;
     @BindView(R.id.addimg)ImageView addimg;
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
+
     @OnClick(R.id.action)//
     public void send(){//发送请求
         String mes=inputtxt.getText().toString().trim();
@@ -78,7 +80,13 @@ public class Settings_Advice_Activity extends BaseActivity {
         }
 
         //发送请求
+        mpresenter.advice(mes,uploadFile);
 
+    }
+    @Override
+    public  void onResult(String result) {
+        showMes("提交成功！");
+        finish();
     }
     @OnClick(R.id.addimg)
     public void choseimg(){
