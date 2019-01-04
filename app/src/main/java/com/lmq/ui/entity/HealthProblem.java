@@ -9,6 +9,7 @@ public class HealthProblem implements Serializable{
     public String result;
     public String beizhu;
 
+    public String id;//id
     public String getTime() {
         return time;
     }
@@ -47,5 +48,12 @@ public class HealthProblem implements Serializable{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

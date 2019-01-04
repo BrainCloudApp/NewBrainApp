@@ -8,7 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.newbrainapp.R;
@@ -19,6 +20,7 @@ import com.lmq.tool.DialogItem;
 import com.lmq.tool.FileCache;
 import com.lmq.tool.LmqTool;
 import com.lmq.tool.PermisstionCheck;
+import com.lmq.ui.entity.Health_Base;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,20 +31,22 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Settings_Advice_Activity extends BaseActivity implements CommonView{
-
+public class HealthInfo_Base_Edit_Activity extends BaseActivity implements CommonView{
     CommonPresenter mpresenter=new CommonPresenter(this,this);
+    String selectedsex="";
+    Health_Base info;
+
     private static final int ACTIVITYRESULT_CHOSE_SYSIMG=2;
     private static final int ACTIVITYRESULT_CHOSE_TAKEIMG=3;
     private static final int ACTIVITYRESULT_CUTIMG=4;
     private File picpath,uploadFile;
     private Uri muri;
     private boolean haspermission=false;
-
     @Override
     protected int setContentView(){
-        return R.layout.activity_settings_advice;
+        return R.layout.activity_health_base_edit;
     }
 
     @Override
@@ -53,52 +57,137 @@ public class Settings_Advice_Activity extends BaseActivity implements CommonView
     @Override
     protected void initView() {
         try {
-
-            setTitle("意见建议");
+            setTitle("健康档案编辑");
+            info = (Health_Base) getIntent().getSerializableExtra("info");
+            if (info == null)
+                info = new Health_Base();
+            initData();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         if (Build.VERSION.SDK_INT >= 23) {
-            haspermission=   PermisstionCheck.checkAndRequestPermission(Settings_Advice_Activity.this) ;
+            haspermission=   PermisstionCheck.checkAndRequestPermission(HealthInfo_Base_Edit_Activity.this) ;
         }else{
             haspermission=true;
         }
     }
-
-    @BindView(R.id.inputtxt)EditText inputtxt;
-    @BindView(R.id.addimg)ImageView addimg;
-
-    @OnClick(R.id.action)//
-    public void send(){//发送请求
-        String mes=inputtxt.getText().toString().trim();
-        if(mes.length()==0){
-            showMes("请输入您对本软件的意见和建议！");
-            return;
-        }
-
-        //发送请求
-        mpresenter.advice(mes,uploadFile);
-
-    }
     @Override
-    public  void onResult(String result) {
-        showMes("提交成功！");
+    public void onResult(String result) {
+        showMes("保存成功！");
+        Intent it=new Intent();
+        it.putExtra("data",info);
+        setResult(RESULT_OK,it);
         finish();
     }
-    @OnClick(R.id.addimg)
-    public void choseimg(){
-        //选择图片
+    @OnClick(R.id.action)
+    public void save(){//保存
+        String usernamestr=username.getText().toString().trim();
+        String user_birthstr=user_birth.getText().toString().trim();
+        String user_healthinfostr=user_healthinfo.getText().toString().trim();
+        String user_phonestr=user_phone.getText().toString().trim();
+        String user_healthproblemstr=user_healthproblem.getText().toString().trim();
+        String user_heightstr=user_height.getText().toString().trim();
+        String user_weightstr=user_weight.getText().toString().trim();
+        if(usernamestr.length()==0){
+            showMes("请输入姓名！");
+            return;
+        }
+        if(selectedsex.length()==0){
+            showMes("请选择性别！");
+            return;
+        }if(user_birthstr.length()==0){
+            showMes("请输入年龄！");
+            return;
+        }if(user_healthinfostr.length()==0){
+            showMes("请输入当前健康状况！");
+            return;
+        }if(user_phonestr.length()==0){
+            showMes("请输入手机号！");
+            return;
+        }if(user_healthproblemstr.length()==0){
+            showMes("请输入当前健康问题！");
+            return;
+        }if(user_heightstr.length()==0){
+            showMes("请输入身高！");
+            return;
+        }
+       if(user_weightstr.length()==0){
+        showMes("请输入体重！");
+        return;
+        }
+        info.setName(usernamestr);
+        info.setSex(selectedsex);
+        info.setAge(user_birthstr);
+        info.setPhone(user_phonestr);
+        info.setHeight(user_heightstr);
+        info.setWeight(user_weightstr);
+        info.setHealthstatus(user_healthinfostr);
+        info.setHealthproblem(user_healthproblemstr);
+
+        Intent it=new Intent();
+        it.putExtra("data",info);
+        setResult(RESULT_OK,it);
+        finish();
+     //   mpresenter.editHealthinfo_Base(info.getId(),usernamestr,selectedsex,user_birthstr,user_phonestr,user_heightstr,user_weightstr,user_healthinfostr,user_healthproblemstr,uploadFile);
+    }
+    @OnClick(R.id.user_image)
+    public void  choseImg(){
+        //选择头像
         if(haspermission)
-        showChoseImg();
+            showChoseImg();
         else{
             showMes("请允许App所需要的权限！");
-            haspermission=   PermisstionCheck.checkAndRequestPermission(Settings_Advice_Activity.this) ;
+            haspermission=   PermisstionCheck.checkAndRequestPermission(HealthInfo_Base_Edit_Activity.this) ;
         }
+    }
+    @BindView(R.id.user_image)CircleImageView img;
+    @BindView(R.id.username)
+    EditText username;
+    @BindView(R.id.user_sex)
+    RadioGroup user_sex;
+    @BindView(R.id.user_birth) EditText user_birth;
+    @BindView(R.id.user_healthinfo) EditText user_healthinfo;
+    @BindView(R.id.user_phone) EditText user_phone;
+    @BindView(R.id.user_healthproblem) EditText user_healthproblem;
+    @BindView(R.id.user_height) EditText user_height;
+    @BindView(R.id.user_weight) EditText user_weight;
+    @BindView(R.id.male)RadioButton mal;
+    @BindView(R.id.female)RadioButton female;
+    public void inisex(){
+        user_sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.male){
+                    //男
+                    selectedsex="男";
+                }else{
+                    //女
+                    selectedsex="女";
+                }
+            }
+        });
+        String sex=info.getSex();
+        if(sex==null||sex.length()==0||sex.equalsIgnoreCase("男")){
+            mal.setChecked(true);
+        }else{
+            female.setChecked(true);
+        }
+
+    }
+    public void initData(){
+        img.setImageResource(Integer.valueOf(info.getImg()));
+        inisex();
+        username.setText(info.getName());
+        user_birth.setText(info.getAge());
+        user_height.setText(info.getHeight());
+        user_weight.setText(info.getWeight());
+        user_phone.setText(info.getPhone());
+        user_healthinfo.setText(info.getHealthstatus());
+        user_healthproblem.setText(info.getHealthproblem());
     }
 
     public void showChoseImg(){
@@ -134,14 +223,14 @@ public class Settings_Advice_Activity extends BaseActivity implements CommonView
 
         items.add(new DialogItem("取消", R.layout.custom_dialog_normal2));
 
-        LmqTool .createCustomDialog(mContext, items, R.style.CustomDialogNew);
+        LmqTool.createCustomDialog(mContext, items, R.style.CustomDialogNew);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //
         if (resultCode == Activity.RESULT_OK) {
-             if(requestCode==ACTIVITYRESULT_CHOSE_SYSIMG){
+            if(requestCode==ACTIVITYRESULT_CHOSE_SYSIMG){
                 muri=null;
                 if(data==null)
                     return;
@@ -179,7 +268,7 @@ public class Settings_Advice_Activity extends BaseActivity implements CommonView
         //intentCarema.putExtra("noFaceDetection", true);//不需要人脸识别功能
         //intentCarema.putExtra("circleCrop", "");//设定此方法选定区域会是圆形区域
         //aspectX aspectY是宽高比例
-        if(Build.MODEL.contains("HUAWEI"))
+        if(android.os.Build.MODEL.contains("HUAWEI"))
         {//华为特殊处理 不然会显示圆
             intentCarema.putExtra("aspectX", 9998);
             intentCarema.putExtra("aspectY", 9999);
@@ -219,8 +308,8 @@ public class Settings_Advice_Activity extends BaseActivity implements CommonView
                 e.printStackTrace();
             }
             uploadFile =picpath;
-           // addimg.setBackground(new BitmapDrawable());
-            Glide.with(this).load(uploadFile).into(addimg);
+            // addimg.setBackground(new BitmapDrawable());
+            Glide.with(this).load(uploadFile).into(img);
             //asyncUpload(uploadFile);
             // 上传文件
             // upload_Photo(uploadFile);

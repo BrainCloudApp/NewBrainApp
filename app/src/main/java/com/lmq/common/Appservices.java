@@ -31,6 +31,13 @@ public class Appservices {
 
     private final String MESSAGE= "/app/message";//用户消息列表
     private final String HEALTHINFO= "/app/healthinfo";//用户健康档案
+    private final String HEALTHINFO_EDIT_BASE= "/app/healthinfo_editbase";//保存用户健康档案基本信息
+    private final String HEALTHINFO_EDIT_HOSPITAL= "/app/healthinfo_edithospital";//保存用户健康档案出入院信息
+    private final String HEALTHINFO_DELETE_HOSPITAL= "/app/healthinfo_deletehospital";//删除用户健康档案出入院信息
+    private final String HEALTHINFO_EDIT_PROBLEM= "/app/healthinfo_editproblem";//保存用户健康档案病史信息
+    private final String HEALTHINFO_DELETE_PROBLEM= "/app/healthinfo_deleteproblem";//删除用户健康档案病史信息
+
+
 
     /**
      * 接口请求
@@ -303,12 +310,131 @@ public class Appservices {
             callback.onError(1,e.getMessage());
         }
     }
+
+    /**
+     * 获取用户健康档案
+     * @param id_pat 用户id
+     * @param lifecycle
+     * @param callback
+     */
     public void getUserHealthInfo(String id_pat,LifecycleProvider lifecycle, HttpCallback callback){
 
         try {
             JSONObject param = new JSONObject();
             param.put("id_pat", id_pat);
             request(HEALTHINFO,param,lifecycle,callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+
+    /**
+     * 保存用户健康档案基本信息
+     * @param id_pat 用户id
+     * @param username 姓名
+     * @param sex 性别
+     * @param age 年龄
+     * @param phone 手机号
+     * @param height 身高
+     * @param weight 体重
+     * @param healthinfo 健康状况
+     * @param healthproblem 健康问题
+     * @param fileMap 头像
+     * @param lifecycle
+     * @param callback
+     */
+    public void editHealthinfo_Base(String id_pat,String username,String sex,String age,String phone,String height,String weight,String healthinfo,String healthproblem, Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback) {
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_ex", id_pat);
+            param.put("username", username);
+            param.put("sex", sex);
+            param.put("age", age);
+            param.put("phone", phone);
+            param.put("height", height);
+            param.put("weight", weight);
+            param.put("healthinfo", healthinfo);
+            param.put("healthproblem", healthproblem);
+
+
+
+            upload(HEALTHINFO_EDIT_BASE,param,fileMap,lifecycle,callback);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+
+    /**
+     * 保存单个出入院记录
+     * @param id_hospital 记录id 如果为0则是新增其他为修改
+     * @param intime 入院时间
+     * @param outtime 出院时间
+     * @param doctor 主治医生
+     * @param chufang 医生处方
+     * @param lifecycle
+     * @param callback
+     */
+    public void editHealthinf_Hospital(String id_hospital,String intime,String  outtime,String doctor,String chufang,LifecycleProvider lifecycle, HttpCallback callback){
+
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_hospital", id_hospital);
+            param.put("intime", intime);
+            param.put("outtime", outtime);
+            param.put("doctor", doctor);
+            param.put("chufang", chufang);
+            request(HEALTHINFO_EDIT_HOSPITAL,param,lifecycle,callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+    public void deleteHealthinf_Hospital(String id_hospital,LifecycleProvider lifecycle, HttpCallback callback){
+
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_hospital", id_hospital);
+            request(HEALTHINFO_DELETE_HOSPITAL,param,lifecycle,callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+
+    /**
+     * 编辑健康档案信息-病史
+     * @param id_problem 病史id 如果为0则是新增其他为修改
+     * @param time 时间
+     * @param name 疾病名称
+     * @param result 治疗效果
+     * @param beizhu 备注
+     * @param lifecycle
+     * @param callback
+     */
+    public void editHealthinfo_Problem(String id_problem,String time,String  name,String result,String beizhu,LifecycleProvider lifecycle, HttpCallback callback){
+
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_problem", id_problem);
+            param.put("time", time);
+            param.put("name", name);
+            param.put("result", result);
+            param.put("beizhu", beizhu);
+            request(HEALTHINFO_EDIT_PROBLEM,param,lifecycle,callback);
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+    public void deleteHealthinfo_Problem(String id_problem,LifecycleProvider lifecycle, HttpCallback callback){
+
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_problem", id_problem);
+            request(HEALTHINFO_DELETE_PROBLEM,param,lifecycle,callback);
         }catch (Exception e){
             e.printStackTrace();
             callback.onError(1,e.getMessage());

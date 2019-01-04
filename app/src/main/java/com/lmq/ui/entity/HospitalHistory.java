@@ -7,7 +7,7 @@ public class HospitalHistory implements Serializable{
     public String outtime;
     public String doctor;
     public String chufang;
-
+    public String id;//id
     public String getIntime() {
         return intime;
     }
@@ -38,5 +38,13 @@ public class HospitalHistory implements Serializable{
 
     public void setDoctor(String doctor) {
         this.doctor = doctor;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

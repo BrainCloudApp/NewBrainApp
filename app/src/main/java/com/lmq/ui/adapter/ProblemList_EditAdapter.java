@@ -1,6 +1,5 @@
 package com.lmq.ui.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.newbrainapp.R;
-import com.lmq.ui.entity.AppMessage;
 import com.lmq.ui.entity.HealthProblem;
 
 import java.util.ArrayList;
@@ -21,14 +19,23 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class ProblemListAdapter extends RecyclerView.Adapter {
+public class ProblemList_EditAdapter extends RecyclerView.Adapter {
 
 
-    private static final String TAG = ProblemListAdapter.class.getSimpleName();
+    public static interface OnRecyclerViewListener {
+        void onEdit(int position);
+        void onDelete(int position);
+    }
+    private OnRecyclerViewListener onRecyclerViewListener;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener onRecyclerViewListener) {
+        this.onRecyclerViewListener = onRecyclerViewListener;
+    }
+    private static final String TAG = ProblemList_EditAdapter.class.getSimpleName();
     private ArrayList<HealthProblem> source;
 
 
-    public ProblemListAdapter(ArrayList<HealthProblem> list) {
+    public ProblemList_EditAdapter(ArrayList<HealthProblem> list) {
         this.source = list;
     }
 
@@ -37,7 +44,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
 
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listitem_health_problemhistory_item, null);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listitem_health_problemhistory_item_edit, null);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             view.setLayoutParams(lp);
             return new MyHolder(view);
@@ -45,7 +52,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
 
         try {
 
@@ -56,7 +63,22 @@ public class ProblemListAdapter extends RecyclerView.Adapter {
                 holder.result.setText("状况："+source.get(position).getStatus());
                  holder.result.setText("治疗效果："+source.get(position).getResult());
                   holder.beizhu.setText("备注："+source.get(position).getBeizhu());
-
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onRecyclerViewListener!=null){
+                        onRecyclerViewListener.onDelete(position);
+                    }
+                }
+            });
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onRecyclerViewListener!=null){
+                        onRecyclerViewListener.onEdit(position);
+                    }
+                }
+            });
 
         }catch (Exception e){
             e.printStackTrace();
@@ -82,6 +104,8 @@ public class ProblemListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.problemhistory_name) TextView name;
         @BindView(R.id.problemhistory_result) TextView result;
         @BindView(R.id.problemhistory_beizhu) TextView beizhu;
+        @BindView(R.id.delete) TextView delete;
+        @BindView(R.id.edit) TextView edit;
 
     }
 

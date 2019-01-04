@@ -70,6 +70,8 @@ public class ShareXinde_Activity extends BaseActivity implements CommonView{
         super.onResume();
         if (Build.VERSION.SDK_INT >= 23) {
             haspermission=   PermisstionCheck.checkAndRequestPermission(ShareXinde_Activity.this) ;
+        }else{
+            haspermission=true;
         }
     }
 

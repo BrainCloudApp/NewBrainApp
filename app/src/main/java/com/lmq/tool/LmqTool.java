@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -158,6 +159,7 @@ public class LmqTool {
         customDialog.setCanceledOnTouchOutside(true);
         customDialog.setCancelable(true);
         customDialog.setContentView(dialogView);
+
 
         if (context instanceof Activity) {
             Activity activity = (Activity) context;

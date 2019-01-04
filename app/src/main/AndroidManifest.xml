@@ -77,6 +77,12 @@
         <activity android:name="com.lmq.ui.Settings_Message_Activity"  />
         <activity android:name="com.lmq.ui.MessageList_Activity"  />
         <activity android:name="com.lmq.ui.HealthInfo_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_Base_Edit_Activity"  />
+
+        <activity android:name="com.lmq.ui.HospitalHistory_Item_Activity"  />
+        <activity android:name="com.lmq.ui.HospitalHistory_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Item_Activity"  />
     </application>
 
 </manifest>

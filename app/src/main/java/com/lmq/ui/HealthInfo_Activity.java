@@ -1,7 +1,9 @@
 package com.lmq.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,12 +37,15 @@ import butterknife.BindView;
 
 public class HealthInfo_Activity extends BaseActivity implements CommonView{
 
-    ArrayList<Partner> source=new ArrayList<>();
     CommonPresenter mpresenter=new CommonPresenter(this,this);
     private static  final int TAG_REFRESH=0;
     private  int requestTag=0;//0刷新，1 加载更多
     String id_pat="";//患者id
     HealthInfo info;
+    public static final int Activity_Request_Base=1;
+    public static final int Activity_Request_Hospital=2;
+    public static final int Activity_Request_Problem=3;
+
     @Override
     protected int setContentView(){
         return R.layout.activity_messagelist;
@@ -67,6 +72,19 @@ public class HealthInfo_Activity extends BaseActivity implements CommonView{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void showError(String err) {
+        super.showError(err);
+        switch (requestTag) {
+            case TAG_REFRESH:
+
+                refreshLayout.finishRefresh(true);
+                break;
+
+        }
+    }
+
     public void onResult(String result){
         try {
             switch (requestTag) {
@@ -123,7 +141,30 @@ public class HealthInfo_Activity extends BaseActivity implements CommonView{
 
 
         sa = new UserHealthInfoAdapter(info,mContext);
+        sa.setOnRecyclerViewListener(new UserHealthInfoAdapter.OnRecyclerViewListener() {
+            @Override
+            public void onBaseEdit() {
+                //基本信息编辑
+                Intent it=new Intent(mContext,HealthInfo_Base_Edit_Activity.class);
+                it.putExtra("info",info.getBase());
+                startActivityForResult(it,Activity_Request_Base);
+              //  startActivityFrore(it);
+            }
 
+            @Override
+            public void onHospitalEdit() {
+                Intent it=new Intent(mContext,HospitalHistory_Activity.class);
+                it.putExtra("info",info.getHealthhospitals());
+                startActivityForResult(it,Activity_Request_Hospital);
+            }
+
+            @Override
+            public void onProblemEdit() {
+                Intent it=new Intent(mContext,HealthInfo_ProblemHistory_Activity.class);
+                it.putExtra("info",info.getHealthProblems());
+                startActivityForResult(it,Activity_Request_Problem);
+            }
+        });
         recyclerView.setAdapter(sa);
 
     }
@@ -134,10 +175,12 @@ public class HealthInfo_Activity extends BaseActivity implements CommonView{
         base.setName("张三");
         base.setImg(R.drawable.user1+"");
         base.setSex("男");
-        base.setBirth("2001.12.12");
+        base.setAge("26");
         base.setPhone("13888888888");
         base.setHealthstatus("亚健康");
         base.setHealthproblem("精神抑郁！");
+        base.setHeight("1.65m");
+        base.setWeight("65kg");
         info.setBase(base);
         ArrayList<HealthProblem> problems=new ArrayList<>();
         HealthProblem h1=new HealthProblem();
@@ -166,5 +209,37 @@ public class HealthInfo_Activity extends BaseActivity implements CommonView{
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (resultCode == RESULT_OK) {
+                switch (requestCode) {
+                    case Activity_Request_Base:
+                        Health_Base base=(Health_Base) data.getSerializableExtra("data");
+                        if(base!=null) {
+                            info.setBase(base);
+                            sa.notifyDataSetChanged();
+                        }
+                        break;
+                    case Activity_Request_Hospital:
+                        ArrayList<HospitalHistory> datas=(ArrayList<HospitalHistory>) data.getSerializableExtra("info");
+                        if(datas!=null) {
+                            info.setHealthhospitals(datas);
+                            sa.notifyDataSetChanged();
+                        }
+                        break;
+                    case Activity_Request_Problem:
+                        ArrayList<HealthProblem> datas2=(ArrayList<HealthProblem>) data.getSerializableExtra("info");
+                        if(datas2!=null) {
+                            info.setHealthProblems(datas2);
+                            sa.notifyDataSetChanged();
+                        }
+                        break;
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -36,8 +36,10 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
     private static  final  int TYPE_HOSPITAL=1;//住院记录
     private static  final  int TYPE_PROBLEM=2;//病史
    public static interface OnRecyclerViewListener {
-     /*   void onHeadClick(int position);
-        void onDianZanClick(int position);
+       void onBaseEdit();//基本信息编辑
+       void onHospitalEdit();//出入院记录编辑
+       void onProblemEdit();//病史编辑
+      /* void onDianZanClick(int position);
         void onPinglunClick(int position);*/
        // void search(String keyworkd);
       //  void showTip(String mes);
@@ -100,10 +102,19 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
                      holder.img.setImageResource(Integer.valueOf(info.getBase().getImg()));
                      holder.username.setText("姓名："+info.getBase().getName());
                      holder.user_sex.setText("性别："+info.getBase().getSex());
-                     holder.user_birth.setText("出生日期："+info.getBase().getBirth());
+                     holder.user_birth.setText("年龄："+info.getBase().getAge());
+                     holder.user_height.setText("身高："+info.getBase().getHeight());
+                     holder.user_weight.setText("体重："+info.getBase().getWeight());
                      holder.user_phone.setText("联系电话："+info.getBase().getPhone());
                      holder.user_healthinfo.setText("当前健康状况:"+info.getBase().getHealthstatus());
                      holder.user_healthproblem.setText("当前健康问题："+info.getBase().getHealthproblem());
+                     holder.edit.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             if(onRecyclerViewListener!=null)
+                             onRecyclerViewListener.onBaseEdit();
+                         }
+                     });
                  }
                  else  if(viewHolder instanceof HospitalHolder){
                      HospitalHolder holder = (HospitalHolder) viewHolder;
@@ -115,6 +126,13 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
                      DividerItemDecoration divider = new DividerItemDecoration(mcontext,DividerItemDecoration.VERTICAL);
                      //  SpacesItemDecoration sp=new SpacesItemDecoration(2);
                      holder.list.addItemDecoration(divider);
+                     holder.edit.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             if(onRecyclerViewListener!=null)
+                                 onRecyclerViewListener.onHospitalEdit();
+                         }
+                     });
                  }
                  else  if(viewHolder instanceof ProblemHolder){
                      ProblemHolder holder = (ProblemHolder) viewHolder;
@@ -126,6 +144,13 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
                      DividerItemDecoration divider = new DividerItemDecoration(mcontext,DividerItemDecoration.VERTICAL);
                    //  SpacesItemDecoration sp=new SpacesItemDecoration(2);
                      holder.list.addItemDecoration(divider);
+                     holder.edit.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             if(onRecyclerViewListener!=null)
+                                 onRecyclerViewListener.onProblemEdit();
+                         }
+                     });
                  }
 
 
@@ -153,6 +178,9 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
        @BindView(R.id.user_healthinfo) TextView user_healthinfo;
        @BindView(R.id.user_phone) TextView user_phone;
        @BindView(R.id.user_healthproblem) TextView user_healthproblem;
+       @BindView(R.id.user_height) TextView user_height;
+       @BindView(R.id.user_weight) TextView user_weight;
+       @BindView(R.id.edit) TextView edit;
 
    }
     class ProblemHolder extends RecyclerView.ViewHolder{
@@ -161,6 +189,7 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this,view);
         }
         @BindView(R.id.recyclerView)RecyclerView list;
+        @BindView(R.id.edit) TextView edit;
 
     }
     class HospitalHolder extends RecyclerView.ViewHolder{
@@ -169,6 +198,7 @@ public class UserHealthInfoAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this,view);
         }
         @BindView(R.id.recyclerView)RecyclerView list;
+        @BindView(R.id.edit) TextView edit;
 
     }
 
