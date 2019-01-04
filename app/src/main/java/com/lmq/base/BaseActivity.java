@@ -186,7 +186,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
                 pdialog.setIndeterminate(false);
                 pdialog.setCancelable(true);
                 Window window=pdialog.getWindow();
-                WindowManager.LayoutParams params = window.getAttributes();
+              /*  WindowManager.LayoutParams params = window.getAttributes();
                 //params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;//触摸显示
                 params.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
@@ -199,7 +199,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE;//始终隐藏，触摸屏幕时也不出现
                // params.width=100;
-                window.setAttributes(params);
+                window.setAttributes(params);*/
 
 
                 pdialog.show();
