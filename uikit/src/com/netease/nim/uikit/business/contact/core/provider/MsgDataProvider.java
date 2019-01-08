@@ -8,7 +8,6 @@ import com.netease.nim.uikit.business.contact.core.query.TextQuery;
 import com.netease.nim.uikit.business.contact.core.util.ContactHelper;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.lucene.LuceneService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord;
 
@@ -61,23 +60,24 @@ public final class MsgDataProvider {
         long startTime = System.currentTimeMillis();
 
         List<MsgIndexRecord> result;
-        if (anchor != null) {
+       /* if (anchor != null) {
             result = NIMClient.getService(LuceneService.class).searchSessionNextPageBlock(query, sessionType, sessionId, anchor, 50);
         } else {
             result = NIMClient.getService(LuceneService.class).searchSessionBlock(query, sessionType, sessionId);
-        }
+        }*/
 
-        log(true, result, System.currentTimeMillis() - startTime);
-
-        return result;
+        //log(true, result, System.currentTimeMillis() - startTime);
+return null;
+      //  return result;
     }
 
     private static List<MsgIndexRecord> searchAllSession(String query) {
         long startTime = System.currentTimeMillis();
-        List<MsgIndexRecord> result = NIMClient.getService(LuceneService.class).searchAllSessionBlock(query, -1);
-        log(false, result, System.currentTimeMillis() - startTime);
+      //  List<MsgIndexRecord> result = NIMClient.getService(LuceneService.class).searchAllSessionBlock(query, -1);
+       // log(false, result, System.currentTimeMillis() - startTime);
 
-        return result;
+      //  return result;
+        return null;
     }
 
     private static void log(boolean searchSession, List<MsgIndexRecord> result, long cost) {

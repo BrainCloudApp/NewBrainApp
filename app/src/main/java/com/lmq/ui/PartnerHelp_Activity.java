@@ -28,6 +28,12 @@ import com.lmq.ui.adapter.PartnerAdapter2;
 import com.lmq.ui.entity.Partner;
 import com.lmq.ui.entity.ShareComment;
 import com.lmq.ui.entity.ShareInfo;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.impl.NimUIKitImpl;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -265,10 +271,61 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
     @OnClick(R.id.action)//
     public void sharexinde(){
-        Intent it=new Intent(mContext,ShareXinde_Activity.class);
-        startActivity(it);
+//        Intent it=new Intent(mContext,ShareXinde_Activity.class);
+//        startActivity(it);
       // mpresenter.login("张三","111");
        // mpresenter.getContent();
+        goLogin();
+    }
+    public void goLogin(){
+        final LoginInfo info = new LoginInfo("acc_01", "111111");
+
+      /*  NIMClient.getService(AuthService.class).login(info)
+                .setCallback(new RequestCallback<LoginInfo>() {//sdk提供的手动登录方法
+                    @Override
+                    public void onSuccess(LoginInfo param) {
+
+                        showMes("登录成功！");
+                        NimUIKitImpl.setAccount(param.getAccount());
+                        NimUIKit.startP2PSession(mContext,"acc_02");
+
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+
+                    }
+                });*/
+
+        NimUIKit.login(info, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo loginInfo) {
+
+                //启动单聊界面
+                showMes("登录成功！");
+                NimUIKitImpl.setAccount(loginInfo.getAccount());
+                NimUIKit.startP2PSession(mContext,"acc_02");
+                // 启动群聊界面
+                // NimUIKit.startTeamSession(MainActivity.this, "群ID");
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
+
+
     }
     public void loginresult(String result){
         showMes(result);
