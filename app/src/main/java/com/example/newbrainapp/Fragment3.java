@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.lmq.ui.HealthInfo_Activity;
 import com.lmq.ui.Settings_Activity;
 import com.lmq.ui.Settings_Message_Activity;
+import com.lmq.ui.buletooth.BluetoothActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,9 @@ public class Fragment3 extends Fragment {
                         startActivity(intent4);
                         break;
                     case "训练数据采集":
-                        Intent intent5 = new Intent(getActivity(), WebView2.class);
+                       /* Intent intent5 = new Intent(getActivity(), WebView2.class);
+                        startActivity(intent5);*/
+                        Intent intent5 = new Intent(getActivity(), BluetoothActivity.class);
                         startActivity(intent5);
                         break;
                     case "评估及康复情况":
