@@ -87,4 +87,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     // Java8 support for Lifecycles
     implementation "android.arch.lifecycle:common-java8:1.1.0"*/
+
+    compile project(':uikit')
 }

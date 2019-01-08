@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     //   Appstorage.setLoginState(this, true);
+       // Appstorage.setLoginState(this, true);
         if (Appstorage.getLoginState(this) == true){
             initFragment();
         }else{
