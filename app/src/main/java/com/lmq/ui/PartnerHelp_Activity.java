@@ -284,7 +284,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
         startActivity(it);
       // mpresenter.login("张三","111");
        // mpresenter.getContent();
-        goLogin();
+       // goLogin();
     }
     public void goLogin(){
         final LoginInfo info = new LoginInfo("acc_01", "111111");
@@ -389,6 +389,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
             return;
         }
         showMes("提交评论内容："+mes);
+        mpresenter.share_comment("id",mes);
         pinglunedit.setText("");
 
         hidPinglun();

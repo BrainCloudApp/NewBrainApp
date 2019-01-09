@@ -141,6 +141,7 @@ public class Settings_Activity extends BaseActivity{
                 custormDialog.dismiss();
                 try {
                     Appstorage.setLoginState(mContext, false);
+                    Appstorage.setIMUser_Account(mContext,"","");//im清除
                     Intent it=new Intent(mContext, Login.class);
                     startActivity(it);
 

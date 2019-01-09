@@ -23,6 +23,7 @@ public class Appservices {
     private final String PATIENT_SHAREEXPLIST="/app/patient_shareexperience_list";//获取某一个患者心得列表
     private final String SHAREEXP_ZAN="/app/shareexperience_support";//心得点赞
     private final String SHAREEXP_COMMENT="/app/shareexperience_comment";//心得评论
+    private final String SHAREEXP_NEW="/app/shareexperience_new";//发表心得
     private final String SEARCH_PATIENT="/app/search_patient";//搜索患者
     private final String SEARCH_DOCTOR="/app/ssearch_doctor";//搜索医生
     private final String DETAIL_PATIENT="/app/detail_patient";//患者信息详情
@@ -180,16 +181,35 @@ public class Appservices {
      * 心得评论
      * @param id_ex 心得id
      * @param content 评论内容
+     * @param lifecycle
+     * @param callback
+     */
+    public void commentExp(String id_ex,String content,LifecycleProvider lifecycle, HttpCallback callback){
+        try {
+            JSONObject param = new JSONObject();
+            param.put("id_ex", id_ex);
+            request(SHAREEXP_COMMENT,param,lifecycle,callback);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            callback.onError(1,e.getMessage());
+        }
+    }
+    /**
+     * 发表心得
+     * @param id_pat 用户id
+     * @param content 心得内容
      * @param fileMap 上传文件
      * @param lifecycle
      * @param callback
      */
-    public void comment(String id_ex,String content, Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback) {
+    public void shareEx(String id_pat,String content, Map<String, File> fileMap,LifecycleProvider lifecycle, UploadCallback callback) {
         try {
             JSONObject param = new JSONObject();
-            param.put("id_ex", id_ex);
+            param.put("id_pat", id_pat);
             param.put("cotent", content);
-            upload(SHAREEXP_COMMENT,param,fileMap,lifecycle,callback);
+            upload(SHAREEXP_NEW,param,fileMap,lifecycle,callback);
 
         }catch (Exception e){
             e.printStackTrace();

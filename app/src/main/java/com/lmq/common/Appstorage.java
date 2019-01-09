@@ -88,5 +88,17 @@ public class Appstorage  {
         initModel(mcontext);
         return myModule.getBoolean("user.messagestate",false);
     }
-
+    public  static void setIMUser_Account(Context mcontext,String acc,String pwd){
+        initModel(mcontext);
+        myModule.put("user.imaccount",acc);
+        myModule.put("user.impwd",pwd);
+    }
+    public static String getIMUser_Account_Acc(Context mcontext){
+        initModel(mcontext);
+        return myModule.getString("user.imaccount","");
+    }
+    public static String getIMUser_Account_Pwd(Context mcontext){
+        initModel(mcontext);
+        return myModule.getString("user.impwd","");
+    }
 }
