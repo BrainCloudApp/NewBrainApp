@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -12,7 +13,7 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 public class AdapterVideoList extends BaseAdapter {
-    public static final String TAG = "JZVD";
+    private TextView download;
 
     Context context;//测试查看
 
@@ -43,7 +44,7 @@ public class AdapterVideoList extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
         if (null == convertView) {
@@ -54,6 +55,15 @@ public class AdapterVideoList extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        download = convertView.findViewById(R.id.video_download);
+
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DownloadVideo.downloadThread(videoUrls[position],context);
+            }
+        });
+
         viewHolder.jzvdStd = convertView.findViewById(R.id.video_player);
         viewHolder.jzvdStd.setUp(
                 videoUrls[position],

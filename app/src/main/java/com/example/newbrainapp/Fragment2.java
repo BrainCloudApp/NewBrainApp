@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 
 import com.lmq.ui.DoctorList_Activity;
+import com.lmq.common.Appstorage;
 import com.lmq.ui.PartnerHelp_Activity;
 
 import org.json.JSONArray;
@@ -29,8 +30,6 @@ import okhttp3.Response;
 public class Fragment2 extends Fragment {
 
     private StringBuffer videoResult;
-    private StringBuffer result;
-    private ArrayList<String> material_list = new ArrayList<>();
     private ArrayList<String> video_name_list = new ArrayList<>();
     private ArrayList<String> video_pic_list = new ArrayList<>();
     private ArrayList<String> video_addr_list = new ArrayList<>();
@@ -64,6 +63,8 @@ public class Fragment2 extends Fragment {
             @Override
             public void onClick(View view) {
                 initStudyMaterialList();
+                Intent intent = new Intent(getActivity(), StudyMaterial.class);
+                startActivity(intent);
             }
         });
 
@@ -155,37 +156,14 @@ public class Fragment2 extends Fragment {
         HttpUtil.getHttpRequest(HttpUtil.IP + "/app/equip", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("Fragment2", "访问服务器失败");
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    result = new StringBuffer();
-                    result.append(response.body().string());
-                    parseJsonObject(result.toString());
-//                    Log.d("Fragment1", "result; " + result.toString());
-                    Intent intent = new Intent(getActivity(), StudyMaterial.class);
-                    intent.putStringArrayListExtra("material_name", material_list);
-                    startActivity(intent);
-                    material_list.clear();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String tempResult = response.body().string();
+                Appstorage.setStr(getActivity(),"StudyMaterialList",tempResult);
             }
         });
-    }
-
-    public void parseJsonObject(String jsonData) {
-        try {
-            JSONArray jsonArray = new JSONArray(jsonData);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String material_name = jsonObject.getString("name");
-                material_list.add(material_name);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }
