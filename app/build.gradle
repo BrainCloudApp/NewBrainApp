@@ -54,7 +54,7 @@ dependencies {
     api("com.android.support:cardview-v7:${V7_APPCOMPAT_VERSION}")
 
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    //implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -88,5 +88,6 @@ dependencies {
     // Java8 support for Lifecycles
     implementation "android.arch.lifecycle:common-java8:1.1.0"*/
 
-    compile project(':uikit')
+   // compile project(':uikit')
+     compile project(':NIM_Android_UIKit-master')
 }

@@ -2,6 +2,7 @@ package com.lmq.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -23,6 +24,7 @@ import com.lmq.common.Appstorage;
 import com.lmq.common.CommonPresenter;
 import com.lmq.common.CommonView;
 import com.lmq.tool.LmqTool;
+import com.lmq.tool.PermisstionCheck;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PartnerAdapter2;
 import com.lmq.ui.entity.Partner;
@@ -58,6 +60,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
     private static  final int TAG_LOADMORE=1;
     private  int requestTag=0;//0刷新，1 加载更多
     private String keyword="";
+    private boolean haspermission=false;
     @Override
     protected int setContentView(){
         return R.layout.activity_partner;
@@ -67,9 +70,15 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
     protected void initBundleData() {
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
+        if (Build.VERSION.SDK_INT >= 23) {
+            haspermission=   PermisstionCheck.checkAndRequestPermission(PartnerHelp_Activity.this) ;
+        }else{
+            haspermission=true;
+        }
         if(mpresenter.getActivity()==null)
             mpresenter=new CommonPresenter(this,this);
     }
@@ -271,8 +280,8 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
     @OnClick(R.id.action)//
     public void sharexinde(){
-//        Intent it=new Intent(mContext,ShareXinde_Activity.class);
-//        startActivity(it);
+        Intent it=new Intent(mContext,ShareXinde_Activity.class);
+        startActivity(it);
       // mpresenter.login("张三","111");
        // mpresenter.getContent();
         goLogin();
