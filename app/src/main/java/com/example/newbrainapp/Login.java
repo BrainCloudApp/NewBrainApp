@@ -13,6 +13,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lmq.common.Appstorage;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.impl.NimUIKitImpl;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,9 +62,10 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name1 = input_username.getText().toString().trim();
+               name1 = input_username.getText().toString().trim();
                 psd1 = input_userpsd.getText().toString().trim();
                 postRequest(name1, psd1);
+            /*    goLogin();*/
             }
         });
 
@@ -73,6 +79,59 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    public void goLogin(){
+        final LoginInfo info = new LoginInfo("acc_01", "111111");
+
+      /*  NIMClient.getService(AuthService.class).login(info)
+                .setCallback(new RequestCallback<LoginInfo>() {//sdk提供的手动登录方法
+                    @Override
+                    public void onSuccess(LoginInfo param) {
+
+                        showMes("登录成功！");
+                        NimUIKitImpl.setAccount(param.getAccount());
+                        NimUIKit.startP2PSession(mContext,"acc_02");
+
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+
+                    }
+                });*/
+
+        NimUIKit.login(info, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo loginInfo) {
+
+                //启动单聊界面
+              //  showMes("登录成功！");
+                Log.d("Login","登录成功！");
+                NimUIKitImpl.setAccount(loginInfo.getAccount());
+                NimUIKit.startP2PSession(Login.this,"acc_02");
+
+               // NimUIKit.startChatting(Login.this, "acc_02",SessionTypeEnum.P2P, null,null);
+                // 启动群聊界面
+                // NimUIKit.startTeamSession(MainActivity.this, "群ID");
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
+
+
+    }
     private void postRequest(final String username, final String password) {
         loginBean.setUsername(username);
         loginBean.setPassword(password);
