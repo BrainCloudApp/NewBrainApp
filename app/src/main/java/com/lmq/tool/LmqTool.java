@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -159,6 +160,7 @@ public class LmqTool {
         customDialog.setCancelable(true);
         customDialog.setContentView(dialogView);
 
+
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             if (!activity.isFinishing()) {
@@ -167,5 +169,15 @@ public class LmqTool {
         }
 
         return customDialog;
+    }
+    //多次点击
+    private static long lastClickTime;
+    public synchronized static boolean isFastClick() {
+        long time = System.currentTimeMillis();
+        if ( time - lastClickTime < 1000) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
     }
 }

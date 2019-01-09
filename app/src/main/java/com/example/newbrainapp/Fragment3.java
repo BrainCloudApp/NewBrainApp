@@ -10,8 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.lmq.ui.HealthInfo_Activity;
+import com.lmq.ui.Settings_Activity;
+import com.lmq.ui.Settings_Message_Activity;
+import com.lmq.ui.buletooth.BluetoothActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,15 @@ public class Fragment3 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initItem();
+        Button settings=(Button)getActivity().findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent it=new Intent(getActivity(), Settings_Activity.class);
+                startActivity(it);
+            }
+        });
         ItemAdapter adapter = new ItemAdapter(getContext(), R.layout.my_item, myListItems);
         final ListView listView = getActivity().findViewById(R.id.my_item_list);
         listView.setAdapter(adapter);
@@ -47,8 +62,8 @@ public class Fragment3 extends Fragment {
                 switch (myListItem.getItemName()) {
                     case "消息提醒":
 //                        Log.d("Switch", myListItem.getItemName());
-//                        Intent intent = new Intent(getActivity(), WebView1.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(getActivity(), Settings_Message_Activity.class);
+                        startActivity(intent);
                         break;
                     case "个人基本信息":
                         Toast.makeText(getContext(), myListItem.getItemName(), Toast.LENGTH_LONG);
@@ -57,15 +72,17 @@ public class Fragment3 extends Fragment {
 //                        startActivity(intent1);
                         break;
                     case "健康档案":
-//                        Intent intent3 = new Intent(getActivity(), WebView3.class);
-//                        startActivity(intent3);
+                        Intent intent3 = new Intent(getActivity(), HealthInfo_Activity.class);
+                        startActivity(intent3);
                         break;
                     case "治疗记录":
                         Intent intent4 = new Intent(getActivity(), WebView1.class);
                         startActivity(intent4);
                         break;
                     case "训练数据采集":
-                        Intent intent5 = new Intent(getActivity(), WebView2.class);
+                       /* Intent intent5 = new Intent(getActivity(), WebView2.class);
+                        startActivity(intent5);*/
+                        Intent intent5 = new Intent(getActivity(), BluetoothActivity.class);
                         startActivity(intent5);
                         break;
                     case "评估及康复情况":

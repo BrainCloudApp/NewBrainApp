@@ -18,13 +18,28 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+
+
+
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+
+
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="label,allowBackup">
 
         <activity
             android:name=".MainActivity"
@@ -58,10 +73,32 @@
         <activity android:name=".WebView2" />
         <activity android:name=".WebView3" />
         <activity android:name=".PersonInfo"></activity>
-        <activity android:name="com.lmq.ui.PartnerHelp_Activity" >
+        <activity android:name="com.lmq.ui.PartnerHelp_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  >
 
         </activity>
         <activity android:name="com.lmq.ui.ShareXinde_Activity"/>
+        <activity android:name="com.lmq.ui.PersonList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.DoctorList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.Person_Info_Activity"  />
+        <activity android:name="com.lmq.ui.Doctor_Info_Activity"  />
+        <activity android:name="com.lmq.ui.PersonShareList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
+        <activity android:name="com.lmq.ui.Settings_Activity"  />
+        <activity android:name="com.lmq.ui.Settings_Advice_Activity"  />
+        <activity android:name="com.lmq.tool.Url_Web"  />
+        <activity android:name="com.lmq.ui.Settings_Message_Activity"  />
+        <activity android:name="com.lmq.ui.MessageList_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_Base_Edit_Activity"  />
+
+        <activity android:name="com.lmq.ui.HospitalHistory_Item_Activity"  />
+        <activity android:name="com.lmq.ui.HospitalHistory_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Activity"  />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Item_Activity"  />
+        <activity android:name="com.lmq.ui.buletooth.BluetoothActivity"  />
     </application>
 
 </manifest>

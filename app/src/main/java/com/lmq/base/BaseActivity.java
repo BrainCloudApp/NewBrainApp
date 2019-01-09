@@ -18,7 +18,9 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -54,7 +56,14 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
         super.onBackPressed();
         finish();
     }
-
+    @OnClick(R.id.back)
+    public void goback(){
+        finish();
+    }
+    @BindView(R.id.title)TextView titletxt;
+    public void setTitle(String title){
+        titletxt.setText(title);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +186,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
                 pdialog.setIndeterminate(false);
                 pdialog.setCancelable(true);
                 Window window=pdialog.getWindow();
-                WindowManager.LayoutParams params = window.getAttributes();
+              /*  WindowManager.LayoutParams params = window.getAttributes();
                 //params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;//触摸显示
                 params.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
@@ -190,7 +199,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE;//始终隐藏，触摸屏幕时也不出现
                // params.width=100;
-                window.setAttributes(params);
+                window.setAttributes(params);*/
 
 
                 pdialog.show();

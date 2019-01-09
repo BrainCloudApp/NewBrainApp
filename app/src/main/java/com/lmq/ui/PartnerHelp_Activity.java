@@ -1,16 +1,28 @@
 package com.lmq.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
 import com.lmq.common.Appstorage;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
+import com.lmq.tool.LmqTool;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PartnerAdapter2;
 import com.lmq.ui.entity.Partner;
@@ -32,10 +44,14 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/12/28 0028.
  */
 
-public class PartnerHelp_Activity extends BaseActivity implements Login_View{
+public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
     ArrayList<Partner> source=new ArrayList<>();
-    Login_Presenter mpresenter=new Login_Presenter(this,this);
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
+    private static  final int TAG_REFRESH=0;
+    private static  final int TAG_LOADMORE=1;
+    private  int requestTag=0;//0刷新，1 加载更多
+    private String keyword="";
     @Override
     protected int setContentView(){
         return R.layout.activity_partner;
@@ -45,19 +61,50 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
     protected void initBundleData() {
 
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mpresenter.getActivity()==null)
+            mpresenter=new CommonPresenter(this,this);
+    }
     @Override
     protected void initView() {
         try {
+            setTitle("同伴互助");
+            keyword=getIntent().getStringExtra("keyword");
+            if(keyword==null)
+                keyword="";
             initLocalData();
             initrefresh();
             setListView();
+            initPinglun();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+    public void onResult(String result){
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(true);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(true);
+                break;
+        }
+    }
 
-
+    @Override
+    public void showError(String err) {
+        super.showError(err);
+        switch (requestTag){
+            case TAG_REFRESH:
+                refreshLayout.finishRefresh(false);
+                break;
+            case TAG_LOADMORE:
+                refreshLayout.finishLoadMore(false);
+                break;
+        }
+    }
     PartnerAdapter sa;
 
     @BindView(R.id.refreshLayout)SmartRefreshLayout refreshLayout;
@@ -68,7 +115,8 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+               // refreshlayout.finishRefresh(2000/**,false*/);//传入false表示刷新失败
+                mpresenter.getExprienceList(keyword);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -92,6 +140,18 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         //divider.setDrawable(new ColorDrawable(Color.rgb(204,204,204)));
         divider.setDrawable(ContextCompat.getDrawable(this,R.drawable.line));
         recyclerView.addItemDecoration(divider);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                hidPinglun();
+            }
+        });
 
 
         sa = new PartnerAdapter(source,mContext);
@@ -99,7 +159,9 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
 
             @Override
             public void onHeadClick(int position) {
-                showMes("点击头像："+source.get(position).getName());
+                //showMes("点击头像："+source.get(position).getName());
+                Intent it=new Intent(mContext,Person_Info_Activity.class);
+                startActivity(it);
             }
 
             @Override
@@ -109,10 +171,29 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
 
             @Override
             public void onPinglunClick(int position) {
-                showMes("点击评论："+source.get(position).getName());
+               // showMes("点击评论："+source.get(position).getName());
+                showPinglun();
+            }
+
+            @Override
+            public void search(String keyworkd) {
+
+                if(!LmqTool.isFastClick()) {
+                    showMes("搜索名字");
+                    closeKeyboard();
+                    Intent it = new Intent(mContext, PersonList_Activity.class);
+                    startActivity(it);
+                }
+            }
+
+            @Override
+            public void showTip(String mes) {
+
+                showMes(mes);
             }
         });
         recyclerView.setAdapter(sa);
+        closeKeyboard();
     }
     public void initLocalData(){
 
@@ -139,7 +220,7 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         ShareInfo share1=new ShareInfo();
         share1.setDianzancount(0);
         share1.setSharecontent("天天锻炼保持住");
-        share1.setShareimgs(R.drawable.banana+"");
+        share1.setShareimgs(R.drawable.ic_pinglun+"");
         share1.setPinglunlist(null);
         p1.setShareinfo(share1);
         source.add(p1);
@@ -154,7 +235,7 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
         ShareInfo share2=new ShareInfo();
         share2.setDianzancount(87);
         share2.setSharecontent("今天完成了训练感觉很开心");
-        share2.setShareimgs(R.drawable.grape+"");
+        share2.setShareimgs(R.drawable.ic_pinglun+"");
 
         ArrayList<ShareComment> comments=new ArrayList<>();
         ShareComment shareComment=new ShareComment();
@@ -182,18 +263,68 @@ public class PartnerHelp_Activity extends BaseActivity implements Login_View{
 
     }
 
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
     @OnClick(R.id.action)//
     public void sharexinde(){
-       /* Intent it=new Intent(mContext,ShareXinde_Activity.class);
-        startActivity(it);*/
-        mpresenter.login(Appstorage.getLoginUserName(mContext),Appstorage.getLoginUserPwd(mContext,Appstorage.getLoginUserName(mContext)));
-
+        Intent it=new Intent(mContext,ShareXinde_Activity.class);
+        startActivity(it);
+      // mpresenter.login("张三","111");
+       // mpresenter.getContent();
     }
     public void loginresult(String result){
         showMes(result);
+    }
+    private void closeKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @BindView(R.id.linear_pinglun)LinearLayout linear_pinglun;
+    @BindView(R.id.pinglunedit)EditText pinglunedit;
+    public void initPinglun(){
+        pinglunedit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE||actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
+                    //TODO回车键按下时要执行的操作
+                    if (TextUtils.isEmpty(pinglunedit.getText().toString().trim())){
+
+                        showMes("请输入评论内容!");
+                        return true;
+                    }else {
+                        pinglun();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        hidPinglun();
+    }
+    public void showPinglun(){
+        linear_pinglun.setVisibility(View.VISIBLE);
+        pinglunedit.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.showSoftInput(pinglunedit, InputMethodManager.SHOW_IMPLICIT);
+
+    }
+    public void hidPinglun(){
+        closeKeyboard();
+        linear_pinglun.setVisibility(View.GONE);
+
+    }
+    @OnClick(R.id.pinglun)
+    public void pinglun(){
+        String mes=pinglunedit.getText().toString().trim();
+        if(mes.length()==0){
+            showMes("请输入评论内容!");
+            return;
+        }
+        showMes("提交评论内容："+mes);
+        pinglunedit.setText("");
+
+        hidPinglun();
     }
 }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
+import com.lmq.common.CommonPresenter;
+import com.lmq.common.CommonView;
 import com.lmq.tool.DialogItem;
 import com.lmq.tool.FileCache;
 import com.lmq.tool.LmqTool;
@@ -28,7 +30,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ShareXinde_Activity extends BaseActivity {
+public class ShareXinde_Activity extends BaseActivity implements CommonView{
+    CommonPresenter mpresenter=new CommonPresenter(this,this);
     private static final int ACTIVITYRESULT_CHOSE_SYSIMG=2;
     private static final int ACTIVITYRESULT_CHOSE_TAKEIMG=3;
     private static final int ACTIVITYRESULT_CUTIMG=4;
@@ -50,9 +53,16 @@ public class ShareXinde_Activity extends BaseActivity {
     protected void initView() {
         try {
 
+            setTitle("分享心得");
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public  void onResult(String result) {
+       showMes("分享成功！");
+       finish();
     }
 
     @Override
@@ -60,15 +70,14 @@ public class ShareXinde_Activity extends BaseActivity {
         super.onResume();
         if (Build.VERSION.SDK_INT >= 23) {
             haspermission=   PermisstionCheck.checkAndRequestPermission(ShareXinde_Activity.this) ;
+        }else{
+            haspermission=true;
         }
     }
 
     @BindView(R.id.inputtxt)EditText inputtxt;
     @BindView(R.id.addimg)ImageView addimg;
-    @OnClick(R.id.back)
-    public void goback(){
-        finish();
-    }
+
     @OnClick(R.id.action)//
     public void send(){//发送请求
         String mes=inputtxt.getText().toString().trim();
@@ -77,7 +86,7 @@ public class ShareXinde_Activity extends BaseActivity {
             return;
         }
 
-        //发送请求
+       mpresenter.share(getIntent().getStringExtra("id"),mes,uploadFile);
 
     }
     @OnClick(R.id.addimg)

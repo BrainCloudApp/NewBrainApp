@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.lmq.ui.DoctorList_Activity;
 import com.lmq.ui.PartnerHelp_Activity;
 
 import org.json.JSONArray;
@@ -90,6 +91,15 @@ public class Fragment2 extends Fragment {
                 startActivity(intent);
             }
         });
+        CardView online_treat = getActivity().findViewById(R.id.online_treat);
+        online_treat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), DoctorList_Activity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
