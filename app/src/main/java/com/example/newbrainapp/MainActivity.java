@@ -7,9 +7,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.lmq.common.AppContact;
 import com.lmq.common.Appstorage;
+import com.lmq.common.MyApplication;
+import com.lmq.im.reminder.ReminderItem;
+import com.lmq.im.reminder.ReminderManager;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.common.ui.drop.DropManager;
+import com.netease.nim.uikit.impl.NimUIKitImpl;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.SystemMessageService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,15 +66,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     //   Appstorage.setLoginState(this, true);
+       // Appstorage.setLoginState(this, true);
         if (Appstorage.getLoginState(this) == true){
             initFragment();
+            autologin();
+            registerMsgUnreadInfoObserver(true);
         }else{
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
             finish();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        enableMsgNotification(false);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        enableMsgNotification(true);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registerMsgUnreadInfoObserver(false);
+     //   registerSystemMessageObservers(false);
+       // DropManager.getInstance().destroy();
     }
 
     private void initFragment() {
@@ -79,7 +115,92 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.main_view, fragments[index]);
         }
         fragmentTransaction.show(fragments[index]).commitAllowingStateLoss();
+        enableMsgNotification(false);
     }
 
+    private void enableMsgNotification(boolean enable) {
 
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+       /* if (enable ) {
+            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+        } else {
+            NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+        }*/
+    }
+    public void autologin(){
+        String account = Appstorage.getIMUser_Account_Acc(this);
+        String token = Appstorage.getIMUser_Account_Pwd(this);
+        if (account.length()>0&&token.length()>0){
+            //已登录过。直接进入聊天
+            initNotificationConfig();
+            NimUIKitImpl.setAccount(account);
+         //   NimUIKit.startP2PSession(mContext, AppContact.localImDes);
+        }else {
+            final LoginInfo info = new LoginInfo(AppContact.localImAccount, AppContact.localImPwd);
+            NimUIKit.login(info, new RequestCallback<LoginInfo>() {
+                @Override
+                public void onSuccess(LoginInfo loginInfo) {
+
+                    //启动单聊界面
+                    //  showMes("登录成功！");
+                    Log.d("Login", "登录成功！");
+                    initNotificationConfig();
+                    NimUIKitImpl.setAccount(loginInfo.getAccount());
+                 //   NimUIKit.startP2PSession(mContext, AppContact.localImDes);
+
+                    // NimUIKit.startChatting(Login.this, "acc_02",SessionTypeEnum.P2P, null,null);
+                    // 启动群聊界面
+                    // NimUIKit.startTeamSession(MainActivity.this, "群ID");
+                }
+
+                @Override
+                public void onFailed(int i) {
+
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+
+                }
+            });
+        }
+
+
+    }
+    /**
+     * 注册未读消息数量观察者
+     */
+        private void registerMsgUnreadInfoObserver(boolean register) {
+        if (register) {
+            ReminderManager.getInstance().registerUnreadNumChangedCallback(new ReminderManager.UnreadNumChangedCallback() {
+                @Override
+                public void onUnreadNumChanged(ReminderItem item) {
+                    Log.d("IM","您有新的短消息！");
+                }
+            });
+        } else {
+            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(new ReminderManager.UnreadNumChangedCallback() {
+                @Override
+                public void onUnreadNumChanged(ReminderItem item) {
+                    Log.d("IM","您有新的短消息！");
+                }
+            });
+        }
+    }
+    /**
+     * 查询系统消息未读数
+     */
+    private void requestSystemMessageUnreadCount() {
+        int unread = NIMClient.getService(SystemMessageService.class).querySystemMessageUnreadCountBlock();
+      //  SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
+        ReminderManager.getInstance().updateContactUnreadNum(unread);
+    }
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(true);
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = MyApplication.loadStatusBarNotificationConfig();
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
 }

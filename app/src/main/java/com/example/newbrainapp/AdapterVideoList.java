@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.net.URLEncoder;
+
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 

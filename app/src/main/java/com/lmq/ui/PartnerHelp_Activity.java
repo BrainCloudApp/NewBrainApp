@@ -2,6 +2,7 @@ package com.lmq.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -23,11 +24,18 @@ import com.lmq.common.Appstorage;
 import com.lmq.common.CommonPresenter;
 import com.lmq.common.CommonView;
 import com.lmq.tool.LmqTool;
+import com.lmq.tool.PermisstionCheck;
 import com.lmq.ui.adapter.PartnerAdapter;
 import com.lmq.ui.adapter.PartnerAdapter2;
 import com.lmq.ui.entity.Partner;
 import com.lmq.ui.entity.ShareComment;
 import com.lmq.ui.entity.ShareInfo;
+import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.impl.NimUIKitImpl;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -52,6 +60,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
     private static  final int TAG_LOADMORE=1;
     private  int requestTag=0;//0刷新，1 加载更多
     private String keyword="";
+    private boolean haspermission=false;
     @Override
     protected int setContentView(){
         return R.layout.activity_partner;
@@ -61,9 +70,15 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
     protected void initBundleData() {
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
+        if (Build.VERSION.SDK_INT >= 23) {
+            haspermission=   PermisstionCheck.checkAndRequestPermission(PartnerHelp_Activity.this) ;
+        }else{
+            haspermission=true;
+        }
         if(mpresenter.getActivity()==null)
             mpresenter=new CommonPresenter(this,this);
     }
@@ -269,6 +284,57 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
         startActivity(it);
       // mpresenter.login("张三","111");
        // mpresenter.getContent();
+       // goLogin();
+    }
+    public void goLogin(){
+        final LoginInfo info = new LoginInfo("acc_01", "111111");
+
+      /*  NIMClient.getService(AuthService.class).login(info)
+                .setCallback(new RequestCallback<LoginInfo>() {//sdk提供的手动登录方法
+                    @Override
+                    public void onSuccess(LoginInfo param) {
+
+                        showMes("登录成功！");
+                        NimUIKitImpl.setAccount(param.getAccount());
+                        NimUIKit.startP2PSession(mContext,"acc_02");
+
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+
+                    }
+                });*/
+
+        NimUIKit.login(info, new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo loginInfo) {
+
+                //启动单聊界面
+                showMes("登录成功！");
+                NimUIKitImpl.setAccount(loginInfo.getAccount());
+                NimUIKit.startP2PSession(mContext,"acc_02");
+                // 启动群聊界面
+                // NimUIKit.startTeamSession(MainActivity.this, "群ID");
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
+
+
     }
     public void loginresult(String result){
         showMes(result);
@@ -323,6 +389,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
             return;
         }
         showMes("提交评论内容："+mes);
+        mpresenter.share_comment("id",mes);
         pinglunedit.setText("");
 
         hidPinglun();

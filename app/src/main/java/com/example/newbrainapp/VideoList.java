@@ -24,6 +24,7 @@ public class VideoList extends AppCompatActivity {
         setContentView(R.layout.activity_video_list);
 
         listView = findViewById(R.id.video_list);
+       // VideoConstant.videoUrls[0]="http://ips.ifeng.com/video19.ifeng.com/video09/2014/06/16/1989823-102-086-0009.mp4";
         listView.setAdapter(new AdapterVideoList(this,
                 VideoConstant.videoUrls,
                 VideoConstant.videoTitles,

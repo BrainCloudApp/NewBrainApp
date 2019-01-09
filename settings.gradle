@@ -1,2 +1,4 @@
 include ':app',':RHttp'
-include ':uikit'
+//include ':uikit'
+
+include ':NIM_Android_UIKit-master'

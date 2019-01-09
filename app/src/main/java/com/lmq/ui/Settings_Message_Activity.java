@@ -73,6 +73,8 @@ public class Settings_Message_Activity extends BaseActivity{
                         startActivity(it2);
                         break;
                     case "社区消息":
+                        Intent it3=new Intent(mContext, RecentMessage_Activity.class);
+                        startActivity(it3);
 
                         break;
 

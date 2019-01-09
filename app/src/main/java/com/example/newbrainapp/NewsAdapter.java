@@ -114,7 +114,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             News single_news = mNews.get(position);
             holder.newsName.setText(single_news.getTitle());
             Log.d("Fragment1",HttpUtil.IP + single_news.getImg());
-            Glide.with(mContext).load(HttpUtil.IP + single_news.getImg()).into(holder.newsImage);
+           Glide.with(mContext.getApplicationContext()).load(HttpUtil.IP + single_news.getImg()).into(holder.newsImage);
         }catch (Exception e) {
             e.printStackTrace();
         }
