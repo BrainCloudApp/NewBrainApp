@@ -89,4 +89,26 @@ public class Appstorage  {
         return myModule.getBoolean("user.messagestate",false);
     }
 
+   public static void saveList(Context mcontext, String listName, String ListStr){
+        initModel(mcontext);
+        myModule.put(listName, ListStr);
+   }
+
+    public static <T> ArrayList<T> getList(Context mcontext, Class<T> clazz, String listName){
+        initModel(mcontext);
+        String newsData = myModule.getString(listName,"");
+        if (newsData.length() == 0) return null;
+        ArrayList<T> arrayList = LmqTool.jsonToArrayList(newsData, clazz);
+        return arrayList;
+    }
+
+   public static void setStr(Context mcontext, String strKey, String str){
+        initModel(mcontext);
+        myModule.put(strKey, str);
+   }
+
+   public static String getStr(Context mcontext, String strKey){
+        initModel(mcontext);
+        return myModule.getString(strKey, "");
+   }
 }

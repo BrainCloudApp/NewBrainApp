@@ -1,31 +1,31 @@
 package com.example.newbrainapp;
 
 public class StudyMaterialBean {
-    private String material_name;
-    private String material_pic;
-    private String material_content;
+    private String name;
+    private String img;
+    private String con;
 
-    public String getMaterial_name() {
-        return material_name;
+    public String getName() {
+        return name;
     }
 
-    public void setMaterial_name(String material_name) {
-        this.material_name = material_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMaterial_pic() {
-        return material_pic;
+    public String getImg() {
+        return img;
     }
 
-    public void setMaterial_pic(String material_pic) {
-        this.material_pic = material_pic;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getMaterial_content() {
-        return material_content;
+    public String getCon() {
+        return con;
     }
 
-    public void setMaterial_content(String material_content) {
-        this.material_content = material_content;
+    public void setCon(String con) {
+        this.con = con;
     }
 }
