@@ -142,12 +142,16 @@ public class CommonPresenter extends BasePresenter<CommonView, LifecycleProvider
         fileMap.put("img", uploadfile);
         new Appservices().advice(content,fileMap,getActivity(), getUploadHttpCallback());
     }
-    public void share(String id_ex,String content,File uploadfile){
+    public void share(String id_pat,String content,File uploadfile){
 
         Map<String, File> fileMap = new TreeMap<>();
         fileMap.put("img", uploadfile);
 
-        new Appservices().comment(id_ex,content,fileMap,getActivity(), getUploadHttpCallback());
+        new Appservices().shareEx(id_pat,content,fileMap,getActivity(), getUploadHttpCallback());
+    }
+    public void share_comment(String id_ex,String content){
+
+        new Appservices().commentExp(id_ex,content,getActivity(), getUploadHttpCallback());
     }
     public void searchDoctor(String keyword) {
 
