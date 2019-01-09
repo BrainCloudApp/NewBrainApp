@@ -122,7 +122,45 @@ public class Appstorage  {
         initModel(mcontext);
         myModule.put(strKey, str);
     }
+    public  static void setIMUser_Account(Context mcontext,String acc,String pwd){
+        initModel(mcontext);
+        myModule.put("user.imaccount",acc);
+        myModule.put("user.impwd",pwd);
+    }
+    public static String getIMUser_Account_Acc(Context mcontext){
+        initModel(mcontext);
+        return myModule.getString("user.imaccount","");
+    }
+    public static String getIMUser_Account_Pwd(Context mcontext){
+        initModel(mcontext);
+        return myModule.getString("user.impwd","");
+    }
 
+
+
+
+    public static void saveList(Context mcontext, String listName, String ListStr){
+        initModel(mcontext);
+        myModule.put(listName, ListStr);
+    }
+
+    public static <T> ArrayList<T> getList(Context mcontext, Class<T> clazz, String listName){
+        initModel(mcontext);
+        String newsData = myModule.getString(listName,"");
+        if (newsData.length() == 0) return null;
+        ArrayList<T> arrayList = LmqTool.jsonToArrayList(newsData, clazz);
+        return arrayList;
+    }
+
+    public static void setStr(Context mcontext, String strKey, String str){
+        initModel(mcontext);
+        myModule.put(strKey, str);
+    }
+
+    public static String getStr(Context mcontext, String strKey){
+        initModel(mcontext);
+        return myModule.getString(strKey, "");
+    }
     public static String getStr(Context mcontext, String strKey){
         initModel(mcontext);
         return myModule.getString(strKey, "");
