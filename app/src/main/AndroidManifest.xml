@@ -138,12 +138,13 @@
         <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Item_Activity"  />
         <activity android:name="com.lmq.ui.buletooth.BluetoothActivity"  />
         <activity android:name="com.lmq.ui.RecentMessage_Activity"  />
+        <activity android:name="com.lmq.im.chatroom.activity.ChatRoomActivity"  />
         <!--网易云信-->
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
-            如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
+            如果 SDKOptions 中提供了，取 SDKOptions 中的值。 官方demokey:45c6af3c98409b18a84451215d0bdd6e.我们自己的key：6b938454a1181c577a7d5d29972c84bc-->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="7ab2fc79efd28627cd6f8cd93e68761e" />
+            android:value="45c6af3c98409b18a84451215d0bdd6e" />
 
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
