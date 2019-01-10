@@ -206,6 +206,11 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
                 showMes(mes);
             }
+
+            @Override
+            public void goChatRoom() {
+                showMes("进入聊天室");
+            }
         });
         recyclerView.setAdapter(sa);
         closeKeyboard();

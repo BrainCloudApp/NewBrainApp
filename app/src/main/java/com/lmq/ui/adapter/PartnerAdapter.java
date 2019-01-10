@@ -40,6 +40,7 @@ public class PartnerAdapter extends RecyclerView.Adapter {
         void onPinglunClick(int position);
         void search(String keyworkd);
         void showTip(String mes);
+       void goChatRoom();
     }
 
     private OnRecyclerViewListener onRecyclerViewListener;
@@ -105,6 +106,14 @@ public class PartnerAdapter extends RecyclerView.Adapter {
                     holder.cancle.setVisibility(View.VISIBLE);
                 }else
                     holder.cancle.setVisibility(View.GONE);
+                holder.chatroomtxt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(onRecyclerViewListener!=null){
+                            onRecyclerViewListener.goChatRoom();
+                        }
+                    }
+                });
 
             }else{
                 ParterHolder holder = (ParterHolder) viewHolder;
@@ -167,6 +176,7 @@ public class PartnerAdapter extends RecyclerView.Adapter {
         @BindView(R.id.linear_xinde)LinearLayout  xindelinear;
        // @BindView(R.id.dianzancount)TextView dianzancount;
         @BindView(R.id.pingluninfo)TextView pingluninfo;
+        @BindView(R.id.chatroomtxt)TextView chatroomtxt;
         @OnClick(R.id.user_image)
         public void clickHead(){
             if (null != onRecyclerViewListener) {

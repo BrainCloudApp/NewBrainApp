@@ -81,7 +81,7 @@ public abstract class BaseFragmentActivity extends RxFragmentActivity implements
             e.printStackTrace();
         }
     }
-    @Override
+   /* @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
@@ -89,11 +89,11 @@ public abstract class BaseFragmentActivity extends RxFragmentActivity implements
     @OnClick(R.id.back)
     public void goback(){
         finish();
-    }
-    @BindView(R.id.title)TextView titletxt;
+    }*/
+   /* @BindView(R.id.title)TextView titletxt;
     public void setTitle(String title){
         titletxt.setText(title);
-    }
+    }*/
     public void showToast(String mes){
 
         ToastUtils.showToast(BaseFragmentActivity.this,mes);
