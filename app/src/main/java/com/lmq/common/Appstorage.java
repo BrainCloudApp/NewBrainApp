@@ -19,6 +19,17 @@ import java.util.ArrayList;
 public class Appstorage  {
     //xxxx 修改时间：2018-12-27-17：11
 
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static void setContext(Context context) {
+        Appstorage.context = context.getApplicationContext();
+    }
+
+    private static Context context;
+
     public static PreferencesStorageModule myModule=null;
     public static void initModel(Context context){
         if(myModule==null)
@@ -94,6 +105,10 @@ public class Appstorage  {
         myModule.put("user.impwd",pwd);
     }
     public static String getIMUser_Account_Acc(Context mcontext){
+        initModel(mcontext);
+        return myModule.getString("user.imaccount","");
+    }
+    public static  String getAccount(Context mcontext){
         initModel(mcontext);
         return myModule.getString("user.imaccount","");
     }

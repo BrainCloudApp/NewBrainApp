@@ -11,4 +11,5 @@
     <dimen name="title_textsize">48dp</dimen>
     <dimen name="nomaltextsize">18sp</dimen>
 
+    <dimen name="pager_sliding_tab_strip_height">40dip</dimen>
 </resources>

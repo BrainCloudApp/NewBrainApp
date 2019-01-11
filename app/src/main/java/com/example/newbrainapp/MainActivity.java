@@ -15,6 +15,8 @@ import com.lmq.common.Appstorage;
 import com.lmq.common.MyApplication;
 import com.lmq.im.reminder.ReminderItem;
 import com.lmq.im.reminder.ReminderManager;
+import com.lmq.tool.PermisstionCheck;
+import com.lmq.ui.ShareXinde_Activity;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
@@ -66,11 +68,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Appstorage.setContext(MainActivity.this);
        // Appstorage.setLoginState(this, true);
         if (Appstorage.getLoginState(this) == true){
             initFragment();
             autologin();
             registerMsgUnreadInfoObserver(true);
+
         }else{
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);

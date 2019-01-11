@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 
 import com.example.newbrainapp.R;
 import com.lmq.base.BaseActivity;
+import com.lmq.common.AppContact;
 import com.lmq.common.Appstorage;
 import com.lmq.common.CommonPresenter;
 import com.lmq.common.CommonView;
+import com.lmq.im.chatroom.activity.ChatRoomActivity;
 import com.lmq.tool.LmqTool;
 import com.lmq.tool.PermisstionCheck;
 import com.lmq.ui.adapter.PartnerAdapter;
@@ -36,6 +39,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.chatroom.model.ChatRoomInfo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -209,7 +213,8 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
 
             @Override
             public void goChatRoom() {
-                showMes("进入聊天室");
+               // showMes("进入聊天室");
+                goCommunicat();
             }
         });
         recyclerView.setAdapter(sa);
@@ -398,5 +403,46 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
         pinglunedit.setText("");
 
         hidPinglun();
+    }
+    public void goCommunicat(){
+        String account = Appstorage.getIMUser_Account_Acc(this);
+        String token = Appstorage.getIMUser_Account_Pwd(this);
+        if (account.length()>0&&token.length()>0){
+            //已登录过。直接进入聊天
+            NimUIKitImpl.setAccount(account);
+           // NimUIKit.startP2PSession(mContext, AppContact.localImDes);
+
+            ChatRoomActivity.start(PartnerHelp_Activity.this,"8396");//使用官方demo的聊天室id
+        }else {
+            final LoginInfo info = new LoginInfo(AppContact.localImAccount, AppContact.localImPwd);
+            NimUIKit.login(info, new RequestCallback<LoginInfo>() {
+                @Override
+                public void onSuccess(LoginInfo loginInfo) {
+
+                    //启动单聊界面
+                    //  showMes("登录成功！");
+                    Log.d("Login", "登录成功！");
+                    NimUIKitImpl.setAccount(loginInfo.getAccount());
+                 //   NimUIKit.startP2PSession(mContext, AppContact.localImDes);
+                    ChatRoomActivity.start(PartnerHelp_Activity.this,"3001");//使用官方demo的聊天室id
+
+                    // NimUIKit.startChatting(Login.this, "acc_02",SessionTypeEnum.P2P, null,null);
+                    // 启动群聊界面
+                    // NimUIKit.startTeamSession(MainActivity.this, "群ID");
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    Log.d("Login", "登录失败！");
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    Log.d("Login", "登录异常！"+throwable.getMessage());
+                }
+            });
+        }
+
+
     }
 }
