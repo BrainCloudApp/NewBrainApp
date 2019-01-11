@@ -424,7 +424,7 @@ public class PartnerHelp_Activity extends BaseActivity implements CommonView{
                     Log.d("Login", "登录成功！");
                     NimUIKitImpl.setAccount(loginInfo.getAccount());
                  //   NimUIKit.startP2PSession(mContext, AppContact.localImDes);
-                    ChatRoomActivity.start(PartnerHelp_Activity.this,"8396");//使用官方demo的聊天室id
+                    ChatRoomActivity.start(PartnerHelp_Activity.this,"3001");//使用官方demo的聊天室id
 
                     // NimUIKit.startChatting(Login.this, "acc_02",SessionTypeEnum.P2P, null,null);
                     // 启动群聊界面

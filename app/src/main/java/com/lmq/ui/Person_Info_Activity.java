@@ -78,7 +78,7 @@ public class Person_Info_Activity  extends BaseActivity implements CommonView{
                     //  showMes("登录成功！");
                     Log.d("Login", "登录成功！");
                     NimUIKitImpl.setAccount(loginInfo.getAccount());
-                    NimUIKit.startP2PSession(mContext, "acc_02");
+                    NimUIKit.startP2PSession(mContext, AppContact.localImDes);
 
                     // NimUIKit.startChatting(Login.this, "acc_02",SessionTypeEnum.P2P, null,null);
                     // 启动群聊界面

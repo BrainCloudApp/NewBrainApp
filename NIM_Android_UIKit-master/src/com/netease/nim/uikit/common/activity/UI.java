@@ -11,10 +11,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.netease.nim.uikit.common.fragment.TFragment;
 import com.netease.nim.uikit.common.util.log.LogUtil;
@@ -128,8 +132,29 @@ public abstract class UI extends AppCompatActivity {
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         if (toolbar != null) {
-            toolbar.setTitle(title);
+            //toolbar.setTitle(title);
             toolbar.setTitleTextColor(Color.WHITE);
+            LinearLayout ly=new LinearLayout(this);
+            ly.setHorizontalGravity(LinearLayout.HORIZONTAL);
+            ViewGroup.LayoutParams p0=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+            TextView ee=new TextView(this);
+            ee.setText(title);
+            ee.setGravity(Gravity.CENTER);
+            ee.setTextSize(18);
+            ee.setTextColor(Color.WHITE);
+
+
+
+            LinearLayout.LayoutParams topContentTextView_lp=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT,1.0f);//此处我需要均分高度就在heignt处设0,1.0f即设置权重是1，页面还有其他一个控件,1：1高度就均分了
+            ly.addView(ee,topContentTextView_lp);
+            TextView e1e=new TextView(this);
+            e1e.setText("测试标题2");
+            e1e.setTextColor(Color.TRANSPARENT);
+            ly.addView(e1e);
+
+
+            toolbar.addView(ly,p0);
 
         }
     }

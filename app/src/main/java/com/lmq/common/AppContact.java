@@ -16,6 +16,6 @@ public class AppContact {
     public static String localImAccount="acc01";
     public static String localImPwd="96e79218965eb72c92a549dd5a330112";
    // public static String localImPwd="111111";
-    public static String localImDes="acc_02";
+    public static String localImDes="acc02";
     public static String IMAppkey="6b938454a1181c577a7d5d29972c84bc";
 }
