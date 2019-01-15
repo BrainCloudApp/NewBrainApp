@@ -72,7 +72,6 @@ public class PermisstionCheck {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean checkAndRequestPermission_Bluetooth(Activity activity) {
 
         try {
