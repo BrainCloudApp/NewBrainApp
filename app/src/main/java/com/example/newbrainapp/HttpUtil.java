@@ -6,8 +6,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class HttpUtil {
-//    public static final String IP = "http://192.168.100.230:4399";
-    public static final String IP = "http://192.168.100.228:4399";
+    public static final String IP = "http://192.168.100.230:4399";
+//    public static final String IP = "http://192.168.100.228:4399";
 
     public static void postHttpRequest(String address, String jsonData, okhttp3.Callback callback){
         RequestBody requestBody = RequestBody.create(MediaType.get("application/json; charset=utf-8"),jsonData);

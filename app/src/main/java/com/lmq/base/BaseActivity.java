@@ -156,7 +156,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements EasyPe
         hidProDialog();
         showToast(err);
     }
-    public  void showMes( String msg) {
+    public void showMes( String msg) {
         Toast toast = new Toast(mContext);
         //设置Toast显示位置，居中，向 X、Y轴偏移量均为0
         toast.setGravity(Gravity.CENTER, 0, 0);

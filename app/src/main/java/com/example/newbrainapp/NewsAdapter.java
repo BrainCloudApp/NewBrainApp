@@ -103,16 +103,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return holder;
     }
 
-//    public void refresh(List<News> newsList){
-//        this.mNews = newsList;
-//        this.notifyDataSetChanged();
-//    }
-
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.ViewHolder holder, int position) {
         try {
             News single_news = mNews.get(position);
             holder.newsName.setText(single_news.getTitle());
+//            Log.d("Fragment1",HttpUtil.IP + single_news.getImg());
+            Glide.with(mContext).load(HttpUtil.IP + single_news.getImg()).into(holder.newsImage);
             Log.d("Fragment1",HttpUtil.IP + single_news.getImg());
            Glide.with(mContext.getApplicationContext()).load(HttpUtil.IP + single_news.getImg()).into(holder.newsImage);
         }catch (Exception e) {
