@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -89,6 +90,7 @@ public class ShareXinde_Activity extends BaseActivity implements CommonView{
        mpresenter.share(getIntent().getStringExtra("id"),mes,uploadFile);
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick(R.id.addimg)
     public void choseimg(){
         //选择图片
@@ -170,7 +172,7 @@ public class ShareXinde_Activity extends BaseActivity implements CommonView{
      * 裁剪图片的方法
      * @param uri
      */
-    public void startPicCut(Uri uri){
+    public void  startPicCut(Uri uri){
         Intent intentCarema = new Intent("com.android.camera.action.CROP");
         intentCarema.setDataAndType(uri, "image/*");
         intentCarema.putExtra("crop", true);
@@ -222,7 +224,7 @@ public class ShareXinde_Activity extends BaseActivity implements CommonView{
             Glide.with(this).load(uploadFile).into(addimg);
             //asyncUpload(uploadFile);
             // 上传文件
-            // upload_Photo(uploadFile);
+//             upload_Photo(uploadFile);
 
         }
     }

@@ -4,26 +4,23 @@
     package="com.example.newbrainapp">
 
     <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="16"
+        android:minSdkVersion="23"
+        android:targetSdkVersion="23"
         tools:overrideLibrary="cn.jzvd" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -33,25 +30,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="label,allowBackup">
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NewsContent"
             android:theme="@style/NewsContentActivityTheme" />
-         <activity
-             android:name=".Login"
-             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Login"
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Register"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".PersonInfo"/>
+        <activity android:name=".PersonInfo" />
         <activity android:name=".VideoList" />
         <activity android:name=".StudyMaterial" />
         <activity android:name=".StudyMaterialItem" />
@@ -66,33 +63,35 @@
         <activity android:name=".WebView1" />
         <activity android:name=".WebView2" />
         <activity android:name=".WebView3" />
-        <activity android:name="com.lmq.ui.PartnerHelp_Activity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"  >
-
-
-        </activity>
-        <activity android:name="com.lmq.ui.ShareXinde_Activity"/>
-        <activity android:name="com.lmq.ui.PersonList_Activity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
-        <activity android:name="com.lmq.ui.DoctorList_Activity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
-        <activity android:name="com.lmq.ui.Person_Info_Activity"  />
-        <activity android:name="com.lmq.ui.Doctor_Info_Activity"  />
-        <activity android:name="com.lmq.ui.PersonShareList_Activity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"  />
-        <activity android:name="com.lmq.ui.Settings_Activity"  />
-        <activity android:name="com.lmq.ui.Settings_Advice_Activity"  />
-        <activity android:name="com.lmq.tool.Url_Web"  />
-        <activity android:name="com.lmq.ui.Settings_Message_Activity"  />
-        <activity android:name="com.lmq.ui.MessageList_Activity"  />
-        <activity android:name="com.lmq.ui.HealthInfo_Activity"  />
-        <activity android:name="com.lmq.ui.HealthInfo_Base_Edit_Activity"  />
-
-        <activity android:name="com.lmq.ui.HospitalHistory_Item_Activity"  />
-        <activity android:name="com.lmq.ui.HospitalHistory_Activity"  />
-        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Activity"  />
-        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Item_Activity"  />
-        <activity android:name="com.lmq.ui.buletooth.BluetoothActivity"  />
+        <activity
+            android:name="com.lmq.ui.PartnerHelp_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name="com.lmq.ui.ShareXinde_Activity" />
+        <activity
+            android:name="com.lmq.ui.PersonList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name="com.lmq.ui.DoctorList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name="com.lmq.ui.Person_Info_Activity" />
+        <activity android:name="com.lmq.ui.Doctor_Info_Activity" />
+        <activity
+            android:name="com.lmq.ui.PersonShareList_Activity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity android:name="com.lmq.ui.Settings_Activity" />
+        <activity android:name="com.lmq.ui.Settings_Advice_Activity" />
+        <activity android:name="com.lmq.tool.Url_Web" />
+        <activity android:name="com.lmq.ui.Settings_Message_Activity" />
+        <activity android:name="com.lmq.ui.MessageList_Activity" />
+        <activity android:name="com.lmq.ui.HealthInfo_Activity" />
+        <activity android:name="com.lmq.ui.HealthInfo_Base_Edit_Activity" />
+        <activity android:name="com.lmq.ui.HospitalHistory_Item_Activity" />
+        <activity android:name="com.lmq.ui.HospitalHistory_Activity" />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Activity" />
+        <activity android:name="com.lmq.ui.HealthInfo_ProblemHistory_Item_Activity" />
+        <activity android:name="com.lmq.ui.buletooth.BluetoothActivity" />
+        <activity android:name=".TreatmentRecord" />
+        <activity android:name=".AssessAndRecover"></activity>
     </application>
 
 </manifest>

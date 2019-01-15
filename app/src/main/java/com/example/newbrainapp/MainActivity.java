@@ -1,7 +1,9 @@
 package com.example.newbrainapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,12 +12,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.lmq.common.Appstorage;
+import com.lmq.tool.PermisstionCheck;
 
 public class MainActivity extends AppCompatActivity {
 
     private Fragment1 fragment1 = new Fragment1();
     private Fragment2 fragment2 = new Fragment2();
     private Fragment3 fragment3 = new Fragment3();
+    boolean haspermission = false;
     private Fragment[] fragments;
     private int lastFragment;
 
@@ -47,12 +51,21 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
      //   Appstorage.setLoginState(this, true);
         if (Appstorage.getLoginState(this) == true){
+            if (Build.VERSION.SDK_INT >= 23) {
+                haspermission = PermisstionCheck.checkAndRequestPermission(MainActivity.this);
+            }else {
+                haspermission = true;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("hasperission", haspermission);
+            fragment3.setArguments(bundle);
             initFragment();
         }else{
             Intent intent = new Intent(this, Login.class);
